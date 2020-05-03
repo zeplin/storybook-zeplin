@@ -8,7 +8,7 @@ interface ZeplinPanelProps {
     zeplinLink: string;
 }
 
-interface ZeplinPanelStates {
+interface ZeplinPanelState {
     zeplinData: {
         name: string;
         image: {
@@ -20,7 +20,7 @@ interface ZeplinPanelStates {
     zoomLevel: number;
 }
 
-class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelStates> {
+class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelState> {
     constructor(props) {
         super(props);
 
@@ -32,8 +32,14 @@ class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelStates> {
         };
     }
 
-    componentDidMount() {
-        getZeplinResource(this.props.zeplinLink).then(data => {
+    fetchZeplinResource = () => {
+        const { zeplinLink } = this.props;
+
+        if (!zeplinLink) {
+            return;
+        }
+
+        getZeplinResource(zeplinLink).then((data) => {
             this.setState({
                 loading: false,
                 error: data && data.error,
@@ -42,27 +48,45 @@ class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelStates> {
         });
     }
 
+    componentDidMount() {
+        this.fetchZeplinResource();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.zeplinLink !== this.props.zeplinLink) {
+            this.fetchZeplinResource();
+        }
+    }
+
     handleZoomIn = () => {
         this.setState(({ zoomLevel }) => ({
             zoomLevel: zoomLevel * 1.25,
         }));
-    }
+    };
 
     handleZoomOut = () => {
         this.setState(({ zoomLevel }) => ({
             zoomLevel: zoomLevel * 0.75,
         }));
-    }
+    };
 
     handleZoomReset = () => {
         this.setState({
             zoomLevel: 1,
         });
-    }
+    };
 
     render() {
         const { zeplinLink } = this.props;
         const { loading, error, zeplinData, zoomLevel } = this.state;
+
+        if (!zeplinLink) {
+            return (
+                <Message>
+                    <strong>zeplinLink</strong> is not provided for this story.
+                </Message>
+            );
+        }
 
         if (loading) {
             return <Message>Loading…</Message>;
