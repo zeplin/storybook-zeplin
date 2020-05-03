@@ -1,4 +1,5 @@
 .babelrc
 .editorconfig
+tsconfig.json
 node_modules
 src
