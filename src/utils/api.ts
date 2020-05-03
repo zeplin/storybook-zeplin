@@ -1,10 +1,8 @@
 import getLinkProperties from "./zeplinLink";
-import { RESOURCE_TYPES, ZEPLIN_TOKEN } from "../constants";
-
-const ZEPLIN_API_URL = "https://api.zeplin.dev/v1";
+import { RESOURCE_TYPES, ZEPLIN_TOKEN, ZEPLIN_API_URL } from "../constants";
 
 const zeplinCache = {};
-export async function getZeplinResource(zeplinLink) {
+export async function getZeplinResource(zeplinLink: string) {
     const cachedValue = zeplinCache[zeplinLink];
     if (cachedValue) {
         return cachedValue;
