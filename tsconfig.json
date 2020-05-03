@@ -12,7 +12,7 @@
         "removeComments": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["react", "react-dom"]
+        "types": ["react"]
     },
     "include": ["src/**/*"]
 }

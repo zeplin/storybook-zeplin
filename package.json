@@ -37,8 +37,6 @@
     },
     "devDependencies": {
         "@types/react": "^16.9.34",
-        "@types/react-dom": "^16.9.7",
         "typescript": "^3.8.3"
-    },
-    "browserslist": "> 0.25%, not dead"
+    }
 }
