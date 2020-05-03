@@ -25,8 +25,7 @@
     "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
     "peerDependencies": {
         "@storybook/addons": "^5.3.18",
-        "react": ">=16.8.0",
-        "react-dom": ">=16.8.0"
+        "react": ">=16.8.0"
     },
     "dependencies": {
         "@storybook/addons": "^5.3.18",
