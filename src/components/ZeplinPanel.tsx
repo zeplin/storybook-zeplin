@@ -1,100 +1,113 @@
-import React, { useEffect, useState } from "react";
-import { useParameter } from "@storybook/api";
+import React, { Component } from "react";
 import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
-import { PARAM_KEY } from "../constants";
 import { getZeplinResource } from "../utils/api";
 
-interface ZeplinData {
-    name: string;
-    image: {
-        original_url: string;
-    };
+interface ZeplinPanelProps {
+    zeplinLink: string;
 }
 
-const ZeplinPanel = () => {
-    const [zeplinData, setZeplinData] = useState<ZeplinData | null>();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState();
-    const [zoomLevel, setZoomLevel] = useState(1);
-    const zeplinLink = useParameter(PARAM_KEY, null);
+interface ZeplinPanelStates {
+    zeplinData: {
+        name: string;
+        image: {
+            original_url: string;
+        };
+    };
+    loading: boolean;
+    error: string;
+    zoomLevel: number;
+}
 
-    useEffect(() => {
-        async function getData() {
-            const data = await getZeplinResource(zeplinLink);
+class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelStates> {
+    constructor(props) {
+        super(props);
 
-            if (data && data.error) {
-                setError(data.error);
-            } else if (data) {
-                setZeplinData(data);
-                setError(null);
-            }
+        this.state = {
+            zeplinData: null,
+            loading: true,
+            error: null,
+            zoomLevel: 1,
+        };
+    }
 
-            setLoading(false);
+    componentDidMount() {
+        getZeplinResource(this.props.zeplinLink).then(data => {
+            this.setState({
+                loading: false,
+                error: data && data.error,
+                zeplinData: data,
+            });
+        });
+    }
+
+    handleZoomIn = () => {
+        this.setState(({ zoomLevel }) => ({
+            zoomLevel: zoomLevel * 1.25,
+        }));
+    }
+
+    handleZoomOut = () => {
+        this.setState(({ zoomLevel }) => ({
+            zoomLevel: zoomLevel * 0.75,
+        }));
+    }
+
+    handleZoomReset = () => {
+        this.setState({
+            zoomLevel: 1,
+        });
+    }
+
+    render() {
+        const { zeplinLink } = this.props;
+        const { loading, error, zeplinData, zoomLevel } = this.state;
+
+        if (loading) {
+            return <Message>Loading…</Message>;
         }
 
-        if (zeplinLink) {
-            getData();
+        if (error) {
+            return <Message>{error}</Message>;
         }
-    }, [zeplinLink]);
 
-    if (!zeplinLink) {
+        const {
+            name,
+            image: { original_url },
+        } = zeplinData;
+
         return (
-            <Message>
-                <strong>zeplinLink</strong> parameter is not provided for this
-                story.
-            </Message>
+            <Container>
+                <Header>
+                    <strong>{name}</strong>
+                    <HeaderButtons
+                        onZoomIn={this.handleZoomIn}
+                        onZoomOut={this.handleZoomOut}
+                        onZoomReset={this.handleZoomReset}
+                    />
+                </Header>
+
+                <Divider />
+
+                <ImageContainer>
+                    <a
+                        href={zeplinLink}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        title={name}
+                    >
+                        <img
+                            style={{ transform: `scale(${zoomLevel})` }}
+                            src={original_url}
+                            alt={name}
+                        />
+                    </a>
+                </ImageContainer>
+            </Container>
         );
     }
-
-    if (loading) {
-        return <Message>Loading…</Message>;
-    }
-
-    if (error) {
-        return <Message>{error}</Message>;
-    }
-
-    const {
-        name,
-        image: { original_url },
-    } = zeplinData;
-
-    const onZoomIn = () => setZoomLevel((prevState) => prevState * 1.25);
-    const onZoomOut = () => setZoomLevel((prevState) => prevState * 0.75);
-    const onZoomReset = () => setZoomLevel(1);
-
-    return (
-        <Container>
-            <Header>
-                <strong>{name}</strong>
-                <HeaderButtons
-                    onZoomIn={onZoomIn}
-                    onZoomOut={onZoomOut}
-                    onZoomReset={onZoomReset}
-                />
-            </Header>
-
-            <Divider />
-
-            <ImageContainer>
-                <a
-                    href={zeplinLink}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    title={name}
-                >
-                    <img
-                        style={{ transform: `scale(${zoomLevel})` }}
-                        src={original_url}
-                        alt={name}
-                    />
-                </a>
-            </ImageContainer>
-        </Container>
-    );
-};
+}
 
 export default ZeplinPanel;
 
