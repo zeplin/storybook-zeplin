@@ -32,19 +32,18 @@ class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelState> {
         };
     }
 
-    fetchZeplinResource = () => {
+    fetchZeplinResource = async () => {
         const { zeplinLink } = this.props;
 
         if (!zeplinLink) {
             return;
         }
 
-        getZeplinResource(zeplinLink).then((data) => {
-            this.setState({
-                loading: false,
-                error: data && data.error,
-                zeplinData: data,
-            });
+        const data = await getZeplinResource(zeplinLink);
+        this.setState({
+            loading: false,
+            error: data && data.error,
+            zeplinData: data,
         });
     }
 
