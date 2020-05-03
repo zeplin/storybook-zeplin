@@ -1,0 +1,18 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "dist",
+        "target": "ES2019",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "declaration": false,
+        "strict": false,
+        "jsx": "react",
+        "forceConsistentCasingInFileNames": true,
+        "removeComments": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "types": ["react", "react-dom"]
+    },
+    "include": ["src/**/*"]
+}

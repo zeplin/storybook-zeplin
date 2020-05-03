@@ -1,0 +1,44 @@
+{
+    "name": "storybook-zeplin",
+    "version": "1.0.0",
+    "description": "Zeplin addon for Storybook",
+    "main": "dist/index.js",
+    "keywords": [
+        "storybook",
+        "zeplin"
+    ],
+    "scripts": {
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mertkahyaoglu/storybook-zeplin.git"
+    },
+    "author": {
+        "name": "Mert Kahyaoğlu",
+        "url": "https://mert-kahyaoglu.com"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mertkahyaoglu/storybook-zeplin/issues"
+    },
+    "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
+    "peerDependencies": {
+        "@storybook/addons": "^5.3.18",
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
+    },
+    "dependencies": {
+        "@storybook/addons": "^5.3.18",
+        "@storybook/api": "^5.3.18",
+        "@storybook/components": "^5.3.18",
+        "@storybook/theming": "^5.3.18",
+        "react": "^16.13.1"
+    },
+    "devDependencies": {
+        "@types/react": "^16.9.34",
+        "@types/react-dom": "^16.9.7",
+        "typescript": "^3.8.3"
+    },
+    "browserslist": "> 0.25%, not dead"
+}
