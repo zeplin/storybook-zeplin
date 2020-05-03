@@ -1,5 +1,10 @@
 import { RESOURCE_TYPES, LINK_BASES, LINK_TYPES } from "../constants";
 
+const webScreenRegex = /\/project\/([\da-f]{24})\/screen\/([\da-f]{24})?/i;
+const webComponentRegex = /(?:\/project\/([\da-f]{24}))?\/styleguide(?:\/([\da-f]{24}))?\/components\?coid=([\da-f]{24})?/i;
+const appScreenRegex = /zpl:\/\/screen\?pid=([\da-f]{24})&sid=([\da-f]{24})?/i;
+const appComponentRegex = /zpl:\/\/components\?pid=([\da-f]{24})&coid=([\da-f]{24})?/i;
+
 interface LinkProperties {
     type: string;
     pid?: string;
@@ -8,30 +13,28 @@ interface LinkProperties {
     coid?: string;
 }
 
-function getLinkType(url) {
-    if (url.protocol === LINK_BASES.APP) {
+function getLinkType(url: string): string | null {
+    if (url.startsWith(LINK_BASES.APP)) {
         return LINK_TYPES.APP;
+    } else if (url.startsWith(LINK_BASES.WEB)) {
+        return LINK_TYPES.WEB;
     }
 
-    switch (url.origin) {
-        case LINK_BASES.WEB:
-            return LINK_TYPES.WEB;
-        case LINK_BASES.SHORT:
-            return LINK_TYPES.SHORT;
-
-        default:
-            return null;
-    }
+    return null;
 }
 
 function getComponentProperties({
     pid,
     stid,
-    coid
-}) {
+    coid,
+}: {
+    pid?: string;
+    stid?: string;
+    coid: string;
+}): LinkProperties {
     if (!coid || (pid && stid)) {
         return {
-            type: RESOURCE_TYPES.INVALID
+            type: RESOURCE_TYPES.INVALID,
         };
     }
 
@@ -39,7 +42,7 @@ function getComponentProperties({
         return {
             type: RESOURCE_TYPES.PROJECT_COMPONENT,
             pid,
-            coid
+            coid,
         };
     }
 
@@ -47,88 +50,48 @@ function getComponentProperties({
         return {
             type: RESOURCE_TYPES.STYLEGUIDE_COMPONENT,
             stid,
-            coid
+            coid,
         };
     }
 
     return {
-        type: RESOURCE_TYPES.INVALID
+        type: RESOURCE_TYPES.INVALID,
     };
 }
 
-function getWebLinkProperties({ href }) {
-    const screenRegex = /\/project\/([\da-f]{24})\/screen\/([\da-f]{24})?/i;
-    const screenMatch = href.match(screenRegex) || [];
-    const [, pid, sid] = screenMatch;
+function getLinkPropertiesByType(link: string, type: string): LinkProperties {
+    const screenRegex =
+        type === LINK_TYPES.WEB ? webScreenRegex : appScreenRegex;
+    const componentRegex =
+        type === LINK_TYPES.WEB ? webComponentRegex : appComponentRegex;
+
+    const screenMatch = link.match(screenRegex) || [];
+    let pid = screenMatch[1];
+    const sid = screenMatch[2];
 
     if (pid && sid) {
         return {
             type: RESOURCE_TYPES.SCREEN,
             pid,
-            sid
+            sid,
         };
     }
 
-    const componentRegex = /(?:\/project\/([\da-f]{24}))?\/styleguide(?:\/([\da-f]{24}))?\/components\?coid=([\da-f]{24})?/i;
-    const componentMatch = href.match(componentRegex) || [];
-    const [, pid2, stid, coid] = componentMatch;
+    const componentMatch = link.match(componentRegex) || [];
 
-    return getComponentProperties({ pid: pid2, stid, coid })
+    pid = componentMatch[1];
+    const stid = componentMatch[2];
+    const coid = componentMatch[3];
+
+    return getComponentProperties({ pid, stid, coid });
 }
 
-function getAppLinkProperties({ searchParams }) {
-    const pid = searchParams.get("pid");
-    const sid = searchParams.get("sid");
-    const stid = searchParams.get("stid");
-    const coid = searchParams.get("coid");
+export default function getLinkProperties(link: string): LinkProperties {
+    const linkType = getLinkType(link);
 
-    if (pid && sid) {
-        return {
-            type: RESOURCE_TYPES.SCREEN,
-            pid,
-            sid
-        };
+    if (linkType) {
+        return getLinkPropertiesByType(link, linkType);
     }
 
-    return getComponentProperties({ pid, stid, coid })
-}
-
-/*async function getShortLinkProperties({ href }) {
-    try {
-        const response = await fetch(`/resolve-short-link?link=${encodeURIComponent(href)}`);
-        const fullUrl = await response.text();
-        const url = new URL(fullUrl);
-
-        return getWebLinkProperties(url);
-    } catch (_) {
-        return { type: RESOURCE_TYPES.INVALID };
-    }
-}*/
-
-/**
- * Returns properties of Zeplin link
- * @param {URL} url
- * @return {Object} {type, pid, stid, coid, sid} if link is valid. Otherwise, returns type with `INVALID`
- */
-export default function getLinkProperties(link): LinkProperties {
-    let url;
-    try {
-        url = new URL(link);
-    } catch (err) {
-        return { type: RESOURCE_TYPES.INVALID };
-    }
-
-    const linkType = getLinkType(url);
-
-    switch (linkType) {
-        case LINK_TYPES.WEB:
-            return getWebLinkProperties(url);
-        case LINK_TYPES.APP:
-            return getAppLinkProperties(url);
-        /*case LINK_TYPES.SHORT:
-            return getShortLinkProperties(url);
-        */
-        default:
-            return { type: RESOURCE_TYPES.INVALID };
-    }
+    return { type: RESOURCE_TYPES.INVALID };
 }
