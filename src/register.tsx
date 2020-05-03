@@ -18,10 +18,6 @@ if (ZEPLIN_TOKEN) {
         const render = ({ active, key }) => {
             const zeplinLink = useParameter(PARAM_KEY, null);
 
-            if (!zeplinLink) {
-                return null;
-            }
-
             return (
                 <AddonPanel active={active} key={key}>
                     <ZeplinPanel zeplinLink={zeplinLink} />
