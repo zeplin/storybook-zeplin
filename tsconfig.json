@@ -12,7 +12,8 @@
         "removeComments": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["react"]
+        "types": ["react"],
+        "skipLibCheck": true
     },
     "include": ["src/**/*"]
 }
