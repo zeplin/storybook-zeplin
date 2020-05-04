@@ -1,9 +1,9 @@
+import queryString from "query-string";
+
 import { RESOURCE_TYPES, LINK_BASES, LINK_TYPES } from "../constants";
 
 const webScreenRegex = /\/project\/([\da-f]{24})\/screen\/([\da-f]{24})?/i;
 const webComponentRegex = /(?:\/project\/([\da-f]{24}))?\/styleguide(?:\/([\da-f]{24}))?\/components\?coid=([\da-f]{24})?/i;
-const appScreenRegex = /zpl:\/\/screen\?pid=([\da-f]{24})&sid=([\da-f]{24})?/i;
-const appComponentRegex = /zpl:\/\/components\?pid=([\da-f]{24})&coid=([\da-f]{24})?/i;
 
 interface LinkProperties {
     type: string;
@@ -59,13 +59,8 @@ function getComponentProperties({
     };
 }
 
-function getLinkPropertiesByType(link: string, type: string): LinkProperties {
-    const screenRegex =
-        type === LINK_TYPES.WEB ? webScreenRegex : appScreenRegex;
-    const componentRegex =
-        type === LINK_TYPES.WEB ? webComponentRegex : appComponentRegex;
-
-    const screenMatch = link.match(screenRegex) || [];
+function getWebLinkProperties(link: string): LinkProperties {
+    const screenMatch = link.match(webScreenRegex) || [];
     let pid = screenMatch[1];
     const sid = screenMatch[2];
 
@@ -77,7 +72,7 @@ function getLinkPropertiesByType(link: string, type: string): LinkProperties {
         };
     }
 
-    const componentMatch = link.match(componentRegex) || [];
+    const componentMatch = link.match(webComponentRegex) || [];
 
     pid = componentMatch[1];
     const stid = componentMatch[2];
@@ -86,11 +81,51 @@ function getLinkPropertiesByType(link: string, type: string): LinkProperties {
     return getComponentProperties({ pid, stid, coid });
 }
 
+function getAppUriProperties(uri: string): LinkProperties {
+    const searchParams = uri.split("?")[1];
+
+    if (!searchParams) {
+        return { type: RESOURCE_TYPES.INVALID };
+    }
+
+    const componentUri = `${LINK_BASES.APP}//components`;
+    const screenUri = `${LINK_BASES.APP}//screen`;
+
+    if (uri.startsWith(componentUri)) {
+        const parsedSearchParams = queryString.parse(searchParams);
+
+        const pid = parsedSearchParams.pid?.toString();
+        const stid = parsedSearchParams.stid?.toString();
+        const coid =
+            parsedSearchParams.coid?.toString() ||
+            parsedSearchParams.coids?.toString();
+
+        return getComponentProperties({ pid, stid, coid });
+    } else if (uri.startsWith(screenUri)) {
+        const parsedSearchParams = queryString.parse(searchParams);
+
+        const pid = parsedSearchParams.pid?.toString();
+        const sid = parsedSearchParams.sid?.toString();
+
+        if (pid && sid) {
+            return {
+                type: RESOURCE_TYPES.SCREEN,
+                pid,
+                sid,
+            };
+        }
+    }
+
+    return { type: RESOURCE_TYPES.INVALID };
+}
+
 export default function getLinkProperties(link: string): LinkProperties {
     const linkType = getLinkType(link);
 
-    if (linkType) {
-        return getLinkPropertiesByType(link, linkType);
+    if (linkType === LINK_TYPES.WEB) {
+        return getWebLinkProperties(link);
+    } else if (linkType === LINK_TYPES.APP) {
+        return getAppUriProperties(link);
     }
 
     return { type: RESOURCE_TYPES.INVALID };

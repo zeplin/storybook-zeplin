@@ -36,6 +36,7 @@
         "@storybook/api": "^5.3.18",
         "@storybook/components": "^5.3.18",
         "@storybook/theming": "^5.3.18",
+        "query-string": "^6.12.1",
         "react": "^16.13.1"
     },
     "devDependencies": {

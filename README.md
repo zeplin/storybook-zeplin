@@ -58,6 +58,8 @@ import 'storybook-zeplin/register'
 
 ### 4. Add a Zeplin link to your story
 
+You can use full URL or app uri of Zeplin components/screens as `zeplinLink`.
+
 ```js
 export default {
     title: "Button",
@@ -70,7 +72,6 @@ export const Secondary = () => <Button secondary>Click me</Button>;
 Default.story = {
     name: "Primary Button",
     parameters: {
-        // Full URL of Zeplin resource (screen or component)
         zeplinLink:
             "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f19",
     },
@@ -80,7 +81,7 @@ Secondary.story = {
     name: "Secondary Button",
     parameters: {
         zeplinLink:
-            "https://app.zeplin.io/project/5e7a6d425204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f11",
+            "zpl://components?pid=5e6a066950e2c2111c16a1d3&coid=5bb478ad26feb174f3ff89b5",
     },
 };
 ```
