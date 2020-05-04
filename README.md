@@ -14,9 +14,7 @@
 
 ## storybook-zeplin
 
-[Storybook](https://github.com/storybooks/storybook) addon that embed Zeplin resources such as screens and components in the addon panel for better design-development workflow.
-
--   [Demo]()
+[Storybook](https://github.com/storybooks/storybook) addon that embeds Zeplin resources such as screens and components in the addon panel for better design-development workflow.
 
 ## Requirements
 
@@ -58,7 +56,7 @@ If you're using Storybook@5.0.x;
 import 'storybook-zeplin/register'
 ```
 
-### 4. Add it to story!
+### 4. Add a Zeplin link to your story
 
 ```js
 export default {
@@ -66,13 +64,13 @@ export default {
     component: Button,
 };
 
-export const Default = () => <Button>Click me!</Button>;
-export const Secondary = () => <Button secondary>Click me!</Button>;
+export const Default = () => <Button>Click me</Button>;
+export const Secondary = () => <Button secondary>Click me</Button>;
 
 Default.story = {
     name: "Primary Button",
     parameters: {
-        // Full URL or app uri of Zeplin resource (screen or component)
+        // Full URL of Zeplin resource (screen or component)
         zeplinLink:
             "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f19",
     },
@@ -82,7 +80,7 @@ Secondary.story = {
     name: "Secondary Button",
     parameters: {
         zeplinLink:
-            "zpl://components?pid=5e7a6d478204d59183a1c76b&coid=5eac833c5f1f2f1cb19f4f19",
+            "https://app.zeplin.io/project/5e7a6d425204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f11",
     },
 };
 ```

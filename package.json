@@ -5,10 +5,12 @@
     "main": "dist/index.js",
     "keywords": [
         "storybook",
-        "zeplin"
+        "zeplin",
+        "addon"
     ],
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "dev": "tsc --watch --preserveWatchOutput"
     },
     "repository": {
         "type": "git",
@@ -24,8 +26,10 @@
     },
     "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
     "peerDependencies": {
-        "@storybook/addons": "^5.3.18",
-        "react": ">=16.8.0"
+        "@storybook/addons": "^5.0.0",
+        "@storybook/components": "^5.0.0",
+        "@storybook/theming": "^5.0.0",
+        "react": "*"
     },
     "dependencies": {
         "@storybook/addons": "^5.3.18",
