@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="./logo.png" width="104" alt="Zeplin"/>
+  <img src="./logo.png" width="280" alt="Zeplin Storybook Addon"/>
   <br/>
   <br/>
 
@@ -42,27 +42,20 @@ In order to access your Zeplin resources, you need to provide your access token.
 STORYBOOK_ZEPLIN_TOKEN=<zeplin_token>
 ```
 
-If you're using Storybook@5.0.x, use this module instead.
-
-```js
-// .storybook/addons.js
-import "storybook-zeplin/register";
-```
-
 ### 3. Register the addon in `main.js`
 
 ```js
 // .storybook/main.js
 module.exports = {
-    addons: ["storybook-zeplin"],
+    addons: ["storybook-zeplin/register"],
 };
 ```
 
-If you're using Storybook@5.0.x, use this module instead.
+If you're using Storybook@5.0.x;
 
 ```js
 // .storybook/addons.js
-import "storybook-zeplin/register";
+import 'storybook-zeplin/register'
 ```
 
 ### 4. Add it to story!
@@ -74,13 +67,26 @@ export default {
 };
 
 export const Default = () => <Button>Click me!</Button>;
+export const Secondary = () => <Button secondary>Click me!</Button>;
 
 Default.story = {
     name: "Primary Button",
     parameters: {
-        // Full URL of Zeplin resource (screen or component)
+        // Full URL or app uri of Zeplin resource (screen or component)
         zeplinLink:
             "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f19",
     },
 };
+
+Secondary.story = {
+    name: "Secondary Button",
+    parameters: {
+        zeplinLink:
+            "zpl://components?pid=5e7a6d478204d59183a1c76b&coid=5eac833c5f1f2f1cb19f4f19",
+    },
+};
 ```
+
+## License
+
+MIT © [Mert Kahyaoğlu](https://mert-kahyaoglu.com)
