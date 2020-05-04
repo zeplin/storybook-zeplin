@@ -13,23 +13,21 @@ import {
     PANEL_ID,
 } from "./constants";
 
-if (ZEPLIN_TOKEN) {
-    addons.register(ADDON_ID, (api) => {
-        const render = ({ active, key }) => {
-            const zeplinLink = useParameter(PARAM_KEY, null);
+addons.register(ADDON_ID, (api) => {
+    const render = ({ active, key }) => {
+        const zeplinLink = useParameter(PARAM_KEY, null);
 
-            return (
-                <AddonPanel active={active} key={key}>
-                    <ZeplinPanel zeplinLink={zeplinLink} />
-                </AddonPanel>
-            );
-        }
+        return (
+            <AddonPanel active={active} key={key}>
+                <ZeplinPanel zeplinLink={zeplinLink} />
+            </AddonPanel>
+        );
+    }
 
-        addons.add(PANEL_ID, {
-            type: types.PANEL,
-            title: TITLE,
-            paramKey: PARAM_KEY,
-            render,
-        });
+    addons.add(PANEL_ID, {
+        type: types.PANEL,
+        title: TITLE,
+        paramKey: PARAM_KEY,
+        render,
     });
-}
+});

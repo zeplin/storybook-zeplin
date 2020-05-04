@@ -3,6 +3,12 @@ import { RESOURCE_TYPES, ZEPLIN_TOKEN, ZEPLIN_API_URL } from "../constants";
 
 const zeplinCache = {};
 export async function getZeplinResource(zeplinLink: string) {
+    if (!ZEPLIN_TOKEN) {
+        return {
+            error: "STORYBOOK_ZEPLIN_TOKEN is not set in environment variables.",
+        };
+    }
+
     const cachedValue = zeplinCache[zeplinLink];
     if (cachedValue) {
         return cachedValue;
