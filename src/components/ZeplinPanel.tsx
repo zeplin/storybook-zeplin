@@ -42,7 +42,7 @@ class ZeplinPanel extends Component<ZeplinPanelProps, ZeplinPanelState> {
         const data = await getZeplinResource(zeplinLink);
         this.setState({
             loading: false,
-            error: data && data.error,
+            error: data?.error,
             zeplinData: data,
         });
     }
