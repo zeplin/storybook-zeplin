@@ -16,6 +16,8 @@
 
 [Storybook](https://github.com/storybooks/storybook) addon that embeds Zeplin resources such as screens and components in the addon panel for better design-development workflow.
 
+  <img src="./screenshot.png" width="100%" alt="Zeplin Storybook Addon"/>
+
 ## Requirements
 
 -   Storybook@>=5.0.0
@@ -58,7 +60,7 @@ import 'storybook-zeplin/register'
 
 ### 4. Add a Zeplin link to your story
 
-You can use full URL or app uri of Zeplin components/screens as `zeplinLink`.
+You can use full web URL or app URI of Zeplin components/screens as `zeplinLink`.
 
 ```js
 export default {
