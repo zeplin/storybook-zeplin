@@ -10,6 +10,7 @@
     ],
     "scripts": {
         "build": "tsc",
+        "prepublish": "tsc",
         "dev": "tsc --watch --preserveWatchOutput"
     },
     "repository": {
