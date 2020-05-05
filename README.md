@@ -12,7 +12,7 @@
 
 <hr/>
 
-## storybook-zeplin
+## storybook-zeplin • [Demo](https://storybook-zeplin.netlify.app)
 
 [Storybook](https://github.com/storybooks/storybook) addon that embeds Zeplin resources such as screens and components in the addon panel for better design-development workflow.
 
