@@ -28,19 +28,19 @@
     "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
     "peerDependencies": {
         "@storybook/addons": "^5.0.0",
+        "@storybook/api": "^5.0.0",
         "@storybook/components": "^5.0.0",
         "@storybook/theming": "^5.0.0",
-        "react": "*"
+        "react": ">=16.8.0"
     },
     "dependencies": {
+        "query-string": "^6.12.1"
+    },
+    "devDependencies": {
         "@storybook/addons": "^5.3.18",
         "@storybook/api": "^5.3.18",
         "@storybook/components": "^5.3.18",
         "@storybook/theming": "^5.3.18",
-        "query-string": "^6.12.1",
-        "react": "^16.13.1"
-    },
-    "devDependencies": {
         "@types/react": "^16.9.34",
         "typescript": "^3.8.3"
     }
