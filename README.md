@@ -42,6 +42,10 @@ In order to access your Zeplin resources, you need to provide your access token.
 STORYBOOK_ZEPLIN_TOKEN=<zeplin_token>
 ```
 
+#### ⚠️ Disclaimer
+
+Please note that this token can be accessed from client side. For security reasons, it would be safe to use this addon on localhost or internal network.
+
 ### 3. Register the addon in `main.js`
 
 ```js
