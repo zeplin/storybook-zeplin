@@ -11,7 +11,8 @@
     "scripts": {
         "build": "tsc",
         "prepublish": "tsc",
-        "dev": "tsc --watch --preserveWatchOutput"
+        "watch": "tsc --watch --preserveWatchOutput",
+        "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook"
     },
     "repository": {
         "type": "git",
@@ -40,8 +41,10 @@
         "@storybook/addons": "^5.3.18",
         "@storybook/api": "^5.3.18",
         "@storybook/components": "^5.3.18",
+        "@storybook/react": "^5.3.18",
         "@storybook/theming": "^5.3.18",
         "@types/react": "^16.9.34",
+        "babel-loader": "^8.1.0",
         "typescript": "^3.8.3"
     }
 }

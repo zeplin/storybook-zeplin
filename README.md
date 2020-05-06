@@ -92,6 +92,15 @@ Secondary.story = {
 };
 ```
 
+## Development
+
+Run following commands in separate tabs to start development
+
+```shell
+npm run watch
+npm run storybook
+```
+
 ## License
 
 MIT © [Mert Kahyaoğlu](https://mert-kahyaoglu.com)
