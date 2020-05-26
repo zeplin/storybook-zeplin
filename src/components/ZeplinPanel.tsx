@@ -22,7 +22,13 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
     const fetchZeplinResource = async () => {
         const designLink = selectedLink || zeplinLink[0].link;
+
         if (!designLink) {
+            const formattedValue = JSON.stringify(zeplinLink, null, 2);
+            setLoading(false);
+            setError(
+                `The zeplin links are either missing or malformed. Received ${formattedValue}`
+            );
             return;
         }
 
