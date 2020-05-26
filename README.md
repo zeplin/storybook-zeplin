@@ -61,14 +61,45 @@ If you're using Storybook@5.0.x;
 
 ```js
 // .storybook/addons.js
-import 'storybook-zeplin/register'
+import "storybook-zeplin/register";
 ```
 
 ### 4. Add a Zeplin link to your story
 
-You can use full web URL or app URI of Zeplin components/screens as `zeplinLink`.
+Storybook zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link.
+For the link, you can use full web URL or app URI of Zeplin components/screens.
 
-```js
+Example of zeplin to all stories in a file:
+
+```jsx
+export default {
+    title: "Button",
+    component: Button,
+    parameters: {
+        zeplinLink: [
+            {
+                name: "Default",
+                link: "https://app.zeplin.io/project/id",
+            },
+        ],
+    },
+};
+
+export const Default = () => <Button>Click me</Button>;
+export const Secondary = () => <Button secondary>Click me</Button>;
+
+Default.story = {
+    name: "Primary Button",
+};
+
+Secondary.story = {
+    name: "Secondary Button",
+};
+```
+
+Example of zeplin per story:
+
+```jsx
 export default {
     title: "Button",
     component: Button,
@@ -80,16 +111,32 @@ export const Secondary = () => <Button secondary>Click me</Button>;
 Default.story = {
     name: "Primary Button",
     parameters: {
-        zeplinLink:
-            "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f19",
+        zeplinLink: [
+            {
+                name: "Default",
+                link: "https://app.zeplin.io/project/id",
+            },
+        ],
     },
 };
 
 Secondary.story = {
     name: "Secondary Button",
     parameters: {
-        zeplinLink:
-            "zpl://components?pid=5e6a066950e2c2111c16a1d3&coid=5bb478ad26feb174f3ff89b5",
+        zeplinLink: [
+            {
+                name: "Desktop",
+                link: "zpl://components?pid=componentid",
+            },
+            {
+                name: "Tablet",
+                link: "zpl://components?pid=componentid",
+            },
+            {
+                name: "Mobile",
+                link: "zpl://components?pid=componentid",
+            },
+        ],
     },
 };
 ```

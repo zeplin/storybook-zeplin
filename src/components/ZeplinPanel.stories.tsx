@@ -6,6 +6,9 @@ export default {
     component: ZeplinPanel
 }
 
-const zeplinLink = process.env.STORYBOOK_ZEPLIN_LINK;
+const zeplinLink = [
+    { name: 'Mobile', link: process.env.STORYBOOK_ZEPLIN_LINK },
+    { name: 'Desktop', link: process.env.STORYBOOK_ZEPLIN_LINK },
+ ];
  
 export const Default = () => <ZeplinPanel zeplinLink={zeplinLink}/>
