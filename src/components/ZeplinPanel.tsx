@@ -29,41 +29,35 @@ interface ZeplinState {
     error: string | null;
 }
 
-const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
-    const initialState: ZeplinState = {
-        selectedLink: "",
-        zeplinData: null,
-        zoomLevel: 1,
-        loading: true,
-        error: null,
-    };
+const initialState: ZeplinState = {
+    selectedLink: "",
+    zeplinData: null,
+    zoomLevel: 1,
+    loading: true,
+    error: null,
+};
 
+const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     const [state, setState] = useReducer(
-        (state, newState) => ({ ...state, ...newState }),
+        (state: ZeplinState, newState: Partial<ZeplinState>) => ({
+            ...state,
+            ...newState,
+        }),
         initialState
     );
 
-    const {
-        selectedLink,
-        zeplinData,
-        zoomLevel,
-        loading,
-        error,
-    } = state as ZeplinState;
+    const { selectedLink, zeplinData, zoomLevel, loading, error } = state;
 
     const fetchZeplinResource = async () => {
-        let designLink: string;
-        if (Array.isArray(zeplinLink)) {
-            designLink = selectedLink || zeplinLink[0].link;
-        } else {
-            designLink = selectedLink || zeplinLink;
-        }
+        const designLink =
+            selectedLink ||
+            (Array.isArray(zeplinLink) ? zeplinLink[0].link : zeplinLink);
 
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
             setState({
                 loading: false,
-                error: `The zeplin links are either missing or malformed. Received ${formattedValue}`,
+                error: `Zeplin links are either missing or malformed. Received ${formattedValue}`,
             });
             return;
         }
@@ -129,7 +123,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
         updated,
     } = zeplinData;
 
-    const lastModifiedAt = `${new Date(
+    const lastUpdatedAt = `${new Date(
         updated * 1000
     ).toLocaleDateString()} at ${new Date(
         updated * 1000
@@ -152,7 +146,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Header>
                 {LinksSection}
                 <strong>{name}</strong>
-                <i>last updated {lastModifiedAt}</i>
+                <i>Last updated: {lastUpdatedAt}</i>
                 <HeaderButtons
                     onZoomIn={handleZoomIn}
                     onZoomOut={handleZoomOut}

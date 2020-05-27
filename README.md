@@ -66,10 +66,10 @@ import "storybook-zeplin/register";
 
 ### 4. Add a Zeplin link to your story
 
-Storybook zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link.
+Storybook Zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link.
 For the link, you can use full web URL or app URI of Zeplin components/screens.
 
-Example of zeplin to all stories in a file:
+Example of Zeplin to all stories in a file:
 
 ```jsx
 export default {
@@ -79,7 +79,7 @@ export default {
         zeplinLink: [
             {
                 name: "Default",
-                link: "https://app.zeplin.io/project/id",
+                link: "https://app.zeplin.io/project/:id/screen/:sid",
             },
         ],
     },
@@ -97,7 +97,7 @@ Secondary.story = {
 };
 ```
 
-Example of zeplin per story:
+Example of Zeplin per story:
 
 ```jsx
 export default {
@@ -114,7 +114,7 @@ Default.story = {
         zeplinLink: [
             {
                 name: "Default",
-                link: "https://app.zeplin.io/project/id",
+                link: "https://app.zeplin.io/project/:id/screen/:sid",
             },
         ],
     },
@@ -126,15 +126,15 @@ Secondary.story = {
         zeplinLink: [
             {
                 name: "Desktop",
-                link: "zpl://components?pid=componentid",
+                link: "zpl://components?pid=pid1&coid=coid1",
             },
             {
                 name: "Tablet",
-                link: "zpl://components?pid=componentid",
+                link: "zpl://components?pid=pid1&coid=coid1",
             },
             {
                 name: "Mobile",
-                link: "zpl://components?pid=componentid",
+                link: "zpl://components?pid=pid1&coid=coid1",
             },
         ],
     },
