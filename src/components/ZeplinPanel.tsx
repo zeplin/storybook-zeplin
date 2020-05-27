@@ -10,7 +10,7 @@ interface ZeplinkLink {
 }
 
 interface ZeplinPanelProps {
-    zeplinLink: ZeplinkLink[];
+    zeplinLink: ZeplinkLink[] | string;
 }
 
 interface ZeplinData {
@@ -43,10 +43,21 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
         initialState
     );
 
-    const { selectedLink, zeplinData, zoomLevel, loading, error } = state as ZeplinState;
+    const {
+        selectedLink,
+        zeplinData,
+        zoomLevel,
+        loading,
+        error,
+    } = state as ZeplinState;
 
     const fetchZeplinResource = async () => {
-        const designLink = selectedLink || zeplinLink[0].link;
+        let designLink: string;
+        if (Array.isArray(zeplinLink)) {
+            designLink = selectedLink || zeplinLink[0].link;
+        } else {
+            designLink = selectedLink || zeplinLink;
+        }
 
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
@@ -124,18 +135,22 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
         updated * 1000
     ).toLocaleTimeString()}`;
 
-    const Links = zeplinLink.map((design: ZeplinkLink) => (
-        <option key={design.name} value={design.link}>
-            {design.name}
-        </option>
-    ));
+    const LinksSection = Array.isArray(zeplinLink) && (
+        <select onChange={selectZeplinLink} value={selectedLink}>
+            {(zeplinLink as ZeplinkLink[]).map(
+                ({ name, link }: ZeplinkLink) => (
+                    <option key={name} value={link}>
+                        {name}
+                    </option>
+                )
+            )}
+        </select>
+    );
 
     return (
         <Container>
             <Header>
-                <select onChange={selectZeplinLink} value={selectedLink}>
-                    {Links}
-                </select>
+                {LinksSection}
                 <strong>{name}</strong>
                 <i>last updated {lastModifiedAt}</i>
                 <HeaderButtons
