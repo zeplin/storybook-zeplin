@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback, useReducer } from "react";
 import { styled } from "@storybook/theming";
 
 import { getZeplinResource } from "../utils/api";
@@ -13,32 +13,59 @@ interface ZeplinPanelProps {
     zeplinLink: ZeplinkLink[];
 }
 
+interface ZeplinData {
+    name: string;
+    image: {
+        original_url: string;
+    };
+    updated: number;
+}
+
+interface ZeplinState {
+    selectedLink: string;
+    zeplinData: ZeplinData | null;
+    zoomLevel: number;
+    loading: boolean;
+    error: string | null;
+}
+
 const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
-    const [selectedLink, setSelectedLink] = useState("");
-    const [zeplinData, setZeplinData] = useState(null);
-    const [zoomLevel, setZoomLevel] = useState(1);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const initialState: ZeplinState = {
+        selectedLink: "",
+        zeplinData: null,
+        zoomLevel: 1,
+        loading: true,
+        error: null,
+    };
+
+    const [state, setState] = useReducer(
+        (state, newState) => ({ ...state, ...newState }),
+        initialState
+    );
+
+    const { selectedLink, zeplinData, zoomLevel, loading, error } = state as ZeplinState;
 
     const fetchZeplinResource = async () => {
         const designLink = selectedLink || zeplinLink[0].link;
 
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
-            setLoading(false);
-            setError(
-                `The zeplin links are either missing or malformed. Received ${formattedValue}`
-            );
+            setState({
+                loading: false,
+                error: `The zeplin links are either missing or malformed. Received ${formattedValue}`,
+            });
             return;
         }
 
-        setLoading(true);
+        setState({ loading: true });
 
         const data = await getZeplinResource(designLink);
 
-        setLoading(false);
-        setError(data?.error);
-        setZeplinData(data);
+        setState({
+            loading: false,
+            error: data?.error,
+            zeplinData: data,
+        });
     };
 
     useEffect(() => {
@@ -46,19 +73,19 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     }, [zeplinLink, selectedLink]);
 
     const selectZeplinLink = useCallback((event) => {
-        setSelectedLink(event.target.value);
+        setState({ selectedLink: event.target.value });
     }, []);
 
     const handleZoomIn = () => {
-        setZoomLevel(zoomLevel * 1.25);
+        setState({ zoomLevel: zoomLevel * 1.25 });
     };
 
     const handleZoomOut = () => {
-        setZoomLevel(zoomLevel * 0.75);
+        setState({ zoomLevel: zoomLevel * 0.75 });
     };
 
     const handleZoomReset = () => {
-        setZoomLevel(1);
+        setState({ zoomLevel: 1 });
     };
 
     if (!zeplinLink || zeplinLink.length <= 0) {
