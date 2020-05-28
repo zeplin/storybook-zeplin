@@ -12,7 +12,8 @@
         "build": "tsc",
         "prepublish": "tsc",
         "watch": "tsc --watch --preserveWatchOutput",
-        "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook"
+        "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook",
+        "build-storybook": "NODE_ENV=production build-storybook -s public"
     },
     "repository": {
         "type": "git",
@@ -41,6 +42,7 @@
         "@storybook/addons": "^5.3.18",
         "@storybook/api": "^5.3.18",
         "@storybook/components": "^5.3.18",
+        "@storybook/preset-typescript": "^3.0.0",
         "@storybook/react": "^5.3.18",
         "@storybook/theming": "^5.3.18",
         "@types/react": "^16.9.34",
