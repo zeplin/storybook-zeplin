@@ -18,6 +18,8 @@
 
   <img src="./screenshot.png" width="100%" alt="Zeplin Storybook Addon"/>
 
+### [Demo](https://storybook-zeplin.netlify.app)
+
 ## Requirements
 
 -   Storybook@>=5.0.0
