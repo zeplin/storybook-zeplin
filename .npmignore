@@ -6,3 +6,4 @@ src
 *.png
 .storybook
 .env
+storybook-static
