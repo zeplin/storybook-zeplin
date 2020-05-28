@@ -18,7 +18,7 @@ const pressedStyle = {
 };
 
 export default {
-    title: "Button",
+    title: "@Example|Button",
 };
 
  export const Button = () => <button style={style}>Normal</button>;
