@@ -18,11 +18,19 @@ const pressedStyle = {
 };
 
 export default {
-    title: "Button",
+    title: "@Example|Button",
 };
 
  export const Button = () => <button style={style}>Normal</button>;
  export const ButtonPressed = () => <button style={pressedStyle}>Pressed</button>;
+ export const ButtonMultiple = () => (
+     <>
+        <Button/>
+        <br/>
+        <br/>
+        <ButtonPressed/>
+     </>
+ );
 
  Button.story = {
      parameters: {
@@ -33,5 +41,20 @@ export default {
  ButtonPressed.story = {
      parameters: {
          zeplinLink: "zpl://components?coids=5ecff3be0f8b6a951c7ca618&pid=5ecff3a2d8a8ab2a61937a66",
+     },
+ };
+
+ ButtonMultiple.story = {
+     parameters: {
+         zeplinLink: [
+             {
+                 name: "Default",
+                 link: "zpl://components?pid=5ecff3a2d8a8ab2a61937a66&coid=5ecff3be40a1ee4c8cb2aadb"
+             },
+             {
+                name: "Pressed",
+                link: "zpl://components?coids=5ecff3be0f8b6a951c7ca618&pid=5ecff3a2d8a8ab2a61937a66"
+            }
+         ],
      },
  };

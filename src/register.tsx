@@ -1,19 +1,17 @@
 import React from "react";
-// @ts-ignore
 import { addons, types } from "@storybook/addons";
 import { AddonPanel } from "@storybook/components";
 import { useParameter } from "@storybook/api";
 
 import ZeplinPanel from "./components/ZeplinPanel";
 import {
-    ZEPLIN_TOKEN,
     TITLE,
     ADDON_ID,
     PARAM_KEY,
     PANEL_ID,
 } from "./constants";
 
-addons.register(ADDON_ID, (api) => {
+addons.register(ADDON_ID, () => {
     const render = ({ active, key }) => {
         const zeplinLink = useParameter(PARAM_KEY, null);
 
