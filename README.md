@@ -66,22 +66,17 @@ import "storybook-zeplin/register";
 
 ### 4. Add a Zeplin link to your story
 
-Storybook Zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link.
+Storybook Zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link or just a string for the link.
 For the link, you can use full web URL or app URI of Zeplin components/screens.
 
-Example of Zeplin to all stories in a file:
+Example of adding Zeplin link to all stories in a file:
 
 ```jsx
 export default {
     title: "Button",
     component: Button,
     parameters: {
-        zeplinLink: [
-            {
-                name: "Default",
-                link: "https://app.zeplin.io/project/:id/screen/:sid",
-            },
-        ],
+        zeplinLink: "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b/styleguide/components?coid=5eac833c5f1f2f1cb19f4f19",
     },
 };
 
@@ -97,7 +92,7 @@ Secondary.story = {
 };
 ```
 
-Example of Zeplin per story:
+Example of adding multiple Zeplin links to a story:
 
 ```jsx
 export default {
@@ -109,19 +104,7 @@ export const Default = () => <Button>Click me</Button>;
 export const Secondary = () => <Button secondary>Click me</Button>;
 
 Default.story = {
-    name: "Primary Button",
-    parameters: {
-        zeplinLink: [
-            {
-                name: "Default",
-                link: "https://app.zeplin.io/project/:id/screen/:sid",
-            },
-        ],
-    },
-};
-
-Secondary.story = {
-    name: "Secondary Button",
+    name: "Responsive Button",
     parameters: {
         zeplinLink: [
             {
@@ -130,11 +113,11 @@ Secondary.story = {
             },
             {
                 name: "Tablet",
-                link: "zpl://components?pid=pid1&coid=coid1",
+                link: "zpl://components?pid=pid1&coid=coid2",
             },
             {
                 name: "Mobile",
-                link: "zpl://components?pid=pid1&coid=coid1",
+                link: "zpl://components?pid=pid1&coid=coid3",
             },
         ],
     },
