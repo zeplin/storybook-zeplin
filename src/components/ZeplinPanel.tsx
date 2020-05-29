@@ -53,7 +53,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     const fetchZeplinResource = async () => {
         const designLink =
             selectedLink ||
-            (Array.isArray(zeplinLink) ? zeplinLink[0].link : zeplinLink);
+            (Array.isArray(zeplinLink) ? zeplinLink[0]?.link : zeplinLink);
 
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
