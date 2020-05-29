@@ -49,12 +49,9 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     );
 
     const { selectedLink, zeplinData, zoomLevel, loading, error } = state;
+    const designLink = selectedLink || (Array.isArray(zeplinLink) ? zeplinLink[0]?.link : zeplinLink);
 
     const fetchZeplinResource = async () => {
-        const designLink =
-            selectedLink ||
-            (Array.isArray(zeplinLink) ? zeplinLink[0]?.link : zeplinLink);
-
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
             setState({
@@ -126,7 +123,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     } = zeplinData;
 
     const LinksSection = Array.isArray(zeplinLink) && (
-        <Select onChange={selectZeplinLink} value={selectedLink}>
+        <Select onChange={selectZeplinLink} value={designLink}>
             {(zeplinLink as ZeplinkLink[]).map(
                 ({ name, link }: ZeplinkLink) => (
                     <option key={name} value={link}>
@@ -154,7 +151,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
             <ImageContainer>
                 <a
-                    href={selectedLink}
+                    href={designLink}
                     rel="noopener noreferrer"
                     target="_blank"
                     title={name}
