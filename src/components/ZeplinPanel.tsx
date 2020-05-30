@@ -1,8 +1,10 @@
 import React, { useEffect, useCallback, useReducer } from "react";
 import { styled } from "@storybook/theming";
 
-import { getZeplinResource } from "../utils/api";
 import HeaderButtons from "./HeaderButtons";
+
+import { getZeplinResource } from "../utils/api";
+import { relativeDate } from "../utils/date";
 
 interface ZeplinkLink {
     name: string;
@@ -47,12 +49,9 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     );
 
     const { selectedLink, zeplinData, zoomLevel, loading, error } = state;
+    const designLink = selectedLink || (Array.isArray(zeplinLink) ? zeplinLink[0]?.link : zeplinLink);
 
     const fetchZeplinResource = async () => {
-        const designLink =
-            selectedLink ||
-            (Array.isArray(zeplinLink) ? zeplinLink[0].link : zeplinLink);
-
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
             setState({
@@ -123,14 +122,8 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
         updated,
     } = zeplinData;
 
-    const lastUpdatedAt = `${new Date(
-        updated * 1000
-    ).toLocaleDateString()} at ${new Date(
-        updated * 1000
-    ).toLocaleTimeString()}`;
-
     const LinksSection = Array.isArray(zeplinLink) && (
-        <select onChange={selectZeplinLink} value={selectedLink}>
+        <Select onChange={selectZeplinLink} value={designLink}>
             {(zeplinLink as ZeplinkLink[]).map(
                 ({ name, link }: ZeplinkLink) => (
                     <option key={name} value={link}>
@@ -138,15 +131,15 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
                     </option>
                 )
             )}
-        </select>
+        </Select>
     );
 
     return (
         <Container>
             <Header>
                 {LinksSection}
-                <strong>{name}</strong>
-                <i>Last updated: {lastUpdatedAt}</i>
+                <ResourceName title={name}>{name}</ResourceName>
+                <i>Last updated {relativeDate(updated * 1000)}</i>
                 <HeaderButtons
                     onZoomIn={handleZoomIn}
                     onZoomOut={handleZoomOut}
@@ -158,7 +151,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
             <ImageContainer>
                 <a
-                    href={selectedLink}
+                    href={designLink}
                     rel="noopener noreferrer"
                     target="_blank"
                     title={name}
@@ -189,6 +182,14 @@ const Header = styled.div`
     padding: 0 15px;
 `;
 
+const ResourceName = styled.strong`
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1;
+    margin-right: 15px;
+`;
+
 const ImageContainer = styled.div`
     overflow: auto;
     flex: 1;
@@ -205,3 +206,8 @@ const Divider = styled.hr`
 const Message = styled.p`
     margin: 15px;
 `;
+
+const Select = styled.select`
+    margin-right: 15px;
+`;
+
