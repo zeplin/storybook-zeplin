@@ -12,19 +12,19 @@ function relativeDate(date: number): string {
     if (delta < 2 * minute) {
         result = "now";
     } else if (delta < hour) {
-        result = Math.floor(delta / minute) + "min";
+        result = Math.floor(delta / minute) + "min ago";
     } else if (delta < day) {
-        result = Math.floor(delta / hour) + "h";
+        result = Math.floor(delta / hour) + "h ago";
     } else if (delta < yesterday) {
         result = "yesterday";
     } else if (delta < week) {
-        result = Math.round(delta / day) + "d";
+        result = Math.round(delta / day) + "d ago";
     } else if (delta < month) {
-        result = Math.round(delta / week) + "w";
+        result = Math.round(delta / week) + "w ago";
     } else if (delta < year) {
-        result = Math.round(delta / month) + "mth";
+        result = Math.round(delta / month) + "mth ago";
     } else {
-        result = Math.round(delta / year) + "y";
+        result = Math.round(delta / year) + "y ago";
     }
 
     return result;
