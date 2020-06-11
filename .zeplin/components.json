@@ -1,0 +1,30 @@
+{
+    "plugins": [
+        {
+            "name": "@zeplin/cli-connect-react-plugin"
+        },
+        {
+            "name": "@zeplin/cli-connect-storybook-plugin",
+            "config": {
+                "url": "https://storybook-zeplin.netlify.app",
+                "startScript": "storybook"
+            }
+        }
+    ],
+    "projects": [
+        "5ecff3a2d8a8ab2a61937a66"
+    ],
+    "styleguides": [],
+    "components": [
+        {
+            "path": ".storybook/Button/Button.jsx",
+            "zeplinNames": [
+                "button",
+                "button_pressed"
+            ]
+        }
+    ],
+    "github": {
+        "repository": "mertkahyaoglu/storybook-zeplin"
+    }
+}
