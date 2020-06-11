@@ -1,0 +1,15 @@
+button {
+    font-family: Helvetica Neue;
+    font-weight: 500;
+    width: 200px;
+    height: 40px;
+    background: #fdbd39;
+    color: #2f3a4f;
+    border: none;
+    border-radius: 2px;
+    font-size: 13px;
+}
+
+button.active {
+    background: #f69833;
+}
