@@ -18,6 +18,8 @@ interface ZeplinPanelProps {
 interface ZeplinData {
     name: string;
     image: {
+        width: number;
+        height: number;
         original_url: string;
     };
     updated: number;
@@ -118,7 +120,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
     const {
         name,
-        image: { original_url },
+        image: { original_url, width, height },
         updated,
     } = zeplinData;
 
@@ -160,6 +162,8 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
                         style={{ transform: `scale(${zoomLevel})` }}
                         src={original_url}
                         alt={name}
+                        width={width}
+                        height={height}
                     />
                 </a>
             </ImageContainer>
@@ -210,4 +214,3 @@ const Message = styled.p`
 const Select = styled.select`
     margin-right: 15px;
 `;
-
