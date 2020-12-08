@@ -1,6 +1,6 @@
 {
     "name": "storybook-zeplin",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "description": "Zeplin addon for Storybook",
     "main": "dist/index.js",
     "keywords": [
