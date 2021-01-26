@@ -39,10 +39,12 @@ npm install --save-dev storybook-zeplin
 ### 2. Add Zeplin access token to your environment variables
 
 In order to access your Zeplin resources, you need to provide your access token. You can create one from https://app.zeplin.io/profile/developer.
+This token needs to provided as an environment variable called `STORYBOOK_ZEPLIN_TOKEN`. You can create `.env` file in your project's root folder and define it in there or
+you can use your command line for it.
 
 ```shell
 # .env
-STORYBOOK_ZEPLIN_TOKEN=<zeplin_token>
+STORYBOOK_ZEPLIN_TOKEN="eyJhbGciOiJIUzI1N.."
 ```
 
 #### ⚠️ Disclaimer
