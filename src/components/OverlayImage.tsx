@@ -41,19 +41,35 @@ const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: Overl
 
   const handleMouseDown = () => setMouseDown(true);
 
-  return <OverlayElement
-    src={url}
-    draggable={false}
-    onMouseDown={handleMouseDown}
-    style={{
-      transform: `translate(${position.x}px, ${position.y}px) scale(${scaling})`,
-      // For the difference filter to work correctly, opacity needs to be locked to 1
-      opacity: showDifference ? 1 : opacity,
-      pointerEvents: isLocked ? 'none' : 'all',
-      mixBlendMode: showDifference ? 'difference' : 'normal'
-    }}
-  />
+  return <>
+      {mouseDown && <DraggableArea />}
+      <OverlayElement
+        src={url}
+        draggable={false}
+        onMouseDown={handleMouseDown}
+        style={{
+          transform: `translate(${position.x}px, ${position.y}px) scale(${scaling})`,
+          // For the difference filter to work correctly, opacity needs to be locked to 1
+          opacity: showDifference ? 1 : opacity,
+          pointerEvents: isLocked ? 'none' : 'all',
+          mixBlendMode: showDifference ? 'difference' : 'normal'
+        }}
+      />
+    </>
 }
+
+/**
+ * In order to not lose "focus" of the overlay when moving
+ * the mouse very fast, there needs to be another element
+ * aboce the iframe
+ */
+const DraggableArea = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
 
 const OverlayElement = styled.img`
   position: absolute;
