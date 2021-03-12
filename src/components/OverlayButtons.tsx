@@ -18,37 +18,41 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
         onToggleDifference,
         overlayIsOpen,
         overlayIsLocked,
+        showDifference,
     } = props;
 
     // Only show additional options when the overlay is visible
     const additionalOptions = overlayIsOpen && (
         <>
-            <IconButton
+            <ToggleIconButton
+                active={overlayIsLocked}
                 className="iconButton"
                 title={overlayIsLocked ? "Unlock overlay" : "Lock overlay"}
                 onClick={onToggleLock}
             >
                 <Icons icon={overlayIsLocked ? "lock" : "unlock"} />
-            </IconButton>
-            <IconButton
+            </ToggleIconButton>
+            <ToggleIconButton
+                active={showDifference}
                 className="iconButton"
                 title="Show difference"
                 onClick={onToggleDifference}
             >
                 <Icons icon="mirror" />
-            </IconButton>
+            </ToggleIconButton>
         </>
     );
 
     return (
         <Container>
-            <IconButton
+            <ToggleIconButton
+                active={overlayIsOpen}
                 className="iconButton"
                 title={overlayIsOpen ? "Hide overlay" : "Show overlay"}
                 onClick={onToggleOverlay}
             >
                 <Icons icon={overlayIsOpen ? "eyeclose" : "eye"} />
-            </IconButton>
+            </ToggleIconButton>
             {additionalOptions}
         </Container>
     );
@@ -58,6 +62,9 @@ const Container = styled.div`
     display: flex;
     button {
         margin-left: 15px;
-        color: #999;
     }
 `;
+
+const ToggleIconButton = styled(IconButton)`
+    color: ${props => props.active ? props.theme.barSelectedColor : props.theme.barTextColor}
+`
