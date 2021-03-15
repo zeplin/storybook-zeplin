@@ -153,7 +153,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Divider />
 
             <Header>
-                <OverlayPanel image_url={original_url}/>
+                <OverlayPanel imageUrl={original_url}/>
             </Header>
 
             <Divider />

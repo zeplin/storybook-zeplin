@@ -6,7 +6,7 @@ import OverlayButtons from "./OverlayButtons";
 import OverlayImage from "./OverlayImage";
 
 interface OverlayPanelProps {
-    image_url: string;
+    imageUrl: string;
 }
 
 interface OverlayState {
@@ -25,7 +25,7 @@ const initialState: OverlayState = {
     opacity: 1,
 };
 
-const OverlayPanel: React.FC<OverlayPanelProps> = ({ image_url }) => {
+const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
     const [state, setState] = useReducer(
         (state: OverlayState, newState: Partial<OverlayState>) => ({
             ...state,
@@ -94,7 +94,7 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ image_url }) => {
             {showOverlay && (
                 <OverlayPortal>
                     <OverlayImage
-                        url={image_url}
+                        url={imageUrl}
                         opacity={opacity}
                         isLocked={lockOverlay}
                         scaling={overlayScaling}

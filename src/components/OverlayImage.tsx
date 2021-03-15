@@ -17,14 +17,14 @@ interface OverlayImageProps {
 }
 
 const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: OverlayImageProps) => {
-  const [position, updatePosition] = useReducer(movementReducer, {x: 0, y: 0});
+  const [position, updatePosition] = useReducer(movementReducer, { x: 0, y: 0 });
   const [mouseDown, setMouseDown] = useState(false);
 
 
   useEffect(() => {
     const handleMouseUp = () => setMouseDown(false);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => window.removeEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => window.removeEventListener("mouseup", handleMouseUp);
   }, []);
 
   useEffect(() => {
@@ -33,10 +33,10 @@ const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: Overl
     };
 
     if (mouseDown) {
-      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener("mousemove", handleMouseMove);
     }
 
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseDown]);
 
   const handleMouseDown = () => setMouseDown(true);
