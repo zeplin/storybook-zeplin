@@ -61,7 +61,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
 const Container = styled.div`
     display: flex;
     button {
-        margin-left: 15px;
+        margin-right: 15px;
     }
 `;
 

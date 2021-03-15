@@ -21,7 +21,7 @@ const initialState: OverlayState = {
     showOverlay: false,
     lockOverlay: false,
     showDifference: false,
-    overlayScaling: 0.5,
+    overlayScaling: 1,
     opacity: 1,
 };
 
@@ -115,6 +115,7 @@ const Select = styled.select`
 const Input = styled.input`
   margin-right: 30px;
   margin-left: 15px;
+  width: 100%;
 `
 
 const OverlayOptions = styled.div`
