@@ -61,7 +61,7 @@ const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: Overl
 /**
  * In order to not lose "focus" of the overlay when moving
  * the mouse very fast, there needs to be another element
- * aboce the iframe
+ * above the iframe
  */
 const DraggableArea = styled.div`
   position: absolute;
