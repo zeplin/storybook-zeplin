@@ -21,7 +21,7 @@ const initialState: OverlayState = {
     showOverlay: false,
     lockOverlay: false,
     showDifference: false,
-    overlayScaling: 1,
+    overlayScaling: 0.5,
     opacity: 1,
 };
 
