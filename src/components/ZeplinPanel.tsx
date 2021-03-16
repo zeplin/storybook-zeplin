@@ -5,6 +5,7 @@ import HeaderButtons from "./HeaderButtons";
 
 import { getZeplinResource } from "../utils/api";
 import { relativeDate } from "../utils/date";
+import OverlayPanel from "./OverlayPanel";
 
 interface ZeplinkLink {
     name: string;
@@ -151,6 +152,12 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
             <Divider />
 
+            <Header>
+                <OverlayPanel imageUrl={original_url}/>
+            </Header>
+
+            <Divider />
+
             <ImageContainer>
                 <a
                     href={designLink}
@@ -204,7 +211,10 @@ const ImageContainer = styled.div`
 `;
 
 const Divider = styled.hr`
-    margin: 0 0 15px 0;
+    margin: 0 0 1px 0;
+    &:last-of-type {
+        margin-bottom: 15px;
+    }
 `;
 
 const Message = styled.p`
