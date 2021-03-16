@@ -1,15 +1,19 @@
 button {
-    font-family: Helvetica Neue;
-    font-weight: 500;
-    width: 200px;
-    height: 40px;
+    font-family: Helvetica;
+    width: 300px;
+    height: 48px;
     background: #fdbd39;
-    color: #2f3a4f;
+    color: #000;
     border: none;
-    border-radius: 2px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 0.78;
 }
 
 button.active {
     background: #f69833;
+}
+
+button:disabled {
+    background: #d0cfce;
 }

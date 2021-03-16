@@ -13,8 +13,8 @@ import "./style.css";
  *
  * @param {Object} props
  */
-export default function Button({ active, children }) {
-    return <button className={active ? "active" : ""}>{children}</button>;
+export default function Button({ active, disabled, children }) {
+    return <button className={active ? "active" : ""} disabled={disabled}>{children}</button>;
 }
 
 Button.propTypes = {

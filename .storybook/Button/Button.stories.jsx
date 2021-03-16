@@ -5,39 +5,57 @@ export default {
     title: "@Example|Button",
 };
 
- export const ButtonNormal = () => <Button>Normal</Button>;
- export const ButtonPressed = () => <Button active>Pressed</Button>;
- export const ButtonMultiple = () => (
-     <>
-        <ButtonNormal/>
-        <br/><br/>
-        <ButtonPressed/>
-     </>
- );
+export const ButtonNormal = () => <Button>Button</Button>;
+export const ButtonPressed = () => <Button active>Button</Button>;
+export const ButtonDisabled = () => <Button disabled>Button</Button>;
+export const ButtonMultiple = () => (
+    <>
+        <ButtonNormal />
+        <br />
+        <br />
+        <ButtonPressed />
+        <br />
+        <br />
+        <ButtonDisabled />
+    </>
+);
 
- ButtonNormal.story = {
-     parameters: {
-         zeplinLink: "zpl://components?pid=5ecff3a2d8a8ab2a61937a66&coid=5ecff3be40a1ee4c8cb2aadb",
-     },
- };
-
- ButtonPressed.story = {
+ButtonNormal.story = {
     parameters: {
-        zeplinLink: "zpl://components?coids=5ecff3be0f8b6a951c7ca618&pid=5ecff3a2d8a8ab2a61937a66",
+        zeplinLink:
+            "zpl://components?pid=5ecff3a2d8a8ab2a61937a66&coids=6050f561b398fd6ec62563ff",
     },
 };
 
- ButtonMultiple.story = {
-     parameters: {
-         zeplinLink: [
-             {
-                 name: "Default",
-                 link: "zpl://components?pid=5ecff3a2d8a8ab2a61937a66&coid=5ecff3be40a1ee4c8cb2aadb"
-             },
-             {
+ButtonPressed.story = {
+    parameters: {
+        zeplinLink:
+            "zpl://components?pid=5ecff3a2d8a8ab2a61937a66&coids=6050f561afc34742f62d40b9",
+    },
+};
+
+ButtonDisabled.story = {
+    parameters: {
+        zeplinLink:
+            "zpl://components?pid=5ecff3a2d8a8ab2a61937a66&coids=6050f5610d8b6e6cd0c1f8b2",
+    },
+};
+
+ButtonMultiple.story = {
+    parameters: {
+        zeplinLink: [
+            {
+                name: "Default",
+                link: ButtonNormal.story.parameters.zeplinLink,
+            },
+            {
                 name: "Pressed",
-                link: "zpl://components?coids=5ecff3be0f8b6a951c7ca618&pid=5ecff3a2d8a8ab2a61937a66"
-            }
-         ],
-     },
- };
+                link: ButtonPressed.story.parameters.zeplinLink,
+            },
+            {
+                name: "Pressed",
+                link: ButtonDisabled.story.parameters.zeplinLink,
+            },
+        ],
+    },
+};
