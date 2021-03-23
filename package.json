@@ -1,53 +1,60 @@
 {
-    "name": "storybook-zeplin",
-    "version": "1.1.4",
-    "description": "Zeplin addon for Storybook",
-    "main": "dist/index.js",
-    "keywords": [
-        "storybook",
-        "zeplin",
-        "addon"
-    ],
-    "scripts": {
-        "build": "tsc",
-        "prepublish": "tsc",
-        "watch": "tsc --watch --preserveWatchOutput",
-        "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook",
-        "build-storybook": "NODE_ENV=production build-storybook -s public"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/mertkahyaoglu/storybook-zeplin.git"
-    },
-    "author": {
-        "name": "Mert Kahyaoğlu",
-        "url": "https://mert-kahyaoglu.com"
-    },
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/mertkahyaoglu/storybook-zeplin/issues"
-    },
-    "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
-    "peerDependencies": {
-        "@storybook/addons": "^6.1.10",
-        "@storybook/api": "^6.1.10",
-        "@storybook/components": "^6.1.10",
-        "@storybook/theming": "^6.1.10",
-        "react": ">=16.8.0"
-    },
-    "dependencies": {
-        "query-string": "^6.12.1"
-    },
-    "devDependencies": {
-        "@storybook/addons": "^5.3.18",
-        "@storybook/api": "^5.3.18",
-        "@storybook/components": "^5.3.18",
-        "@storybook/preset-typescript": "^3.0.0",
-        "@storybook/react": "^6.1.10",
-        "@storybook/theming": "^5.3.18",
-        "@types/react": "^16.9.34",
-        "babel-loader": "^8.1.0",
-        "tsc": "^1.20150623.0",
-        "typescript": "^3.8.3"
-    }
+  "name": "storybook-zeplin",
+  "version": "1.1.4",
+  "description": "Zeplin addon for Storybook",
+  "main": "dist/index.js",
+  "keywords": [
+    "storybook",
+    "zeplin",
+    "addon",
+    "storybook-addon",
+    "design",
+    "popular"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput",
+    "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook",
+    "build-storybook": "NODE_ENV=production build-storybook -s public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mertkahyaoglu/storybook-zeplin.git"
+  },
+  "author": {
+    "name": "Mert Kahyaoğlu",
+    "url": "https://mert-kahyaoglu.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mertkahyaoglu/storybook-zeplin/issues"
+  },
+  "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
+  "peerDependencies": {
+    "@storybook/addons": "^6.1.10",
+    "@storybook/api": "^6.1.10",
+    "@storybook/components": "^6.1.10",
+    "@storybook/theming": "^6.1.10",
+    "react": ">=16.8.0"
+  },
+  "dependencies": {
+    "query-string": "^6.12.1"
+  },
+  "devDependencies": {
+    "@storybook/addons": "^5.3.18",
+    "@storybook/api": "^5.3.18",
+    "@storybook/components": "^5.3.18",
+    "@storybook/preset-typescript": "^3.0.0",
+    "@storybook/react": "^6.1.10",
+    "@storybook/theming": "^5.3.18",
+    "@types/react": "^16.9.34",
+    "babel-loader": "^8.1.0",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.8.3"
+  },
+  "storybook": {
+    "icon": "https://pbs.twimg.com/profile_images/1156483710138671104/bro-lNVH_400x400.png",
+    "displayName": "Zeplin"
+  }
 }
