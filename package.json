@@ -6,7 +6,10 @@
     "keywords": [
         "storybook",
         "zeplin",
-        "addon"
+        "addon",
+        "storybook-addon",
+        "design",
+        "popular"
     ],
     "scripts": {
         "build": "tsc",
@@ -49,5 +52,9 @@
         "babel-loader": "^8.1.0",
         "tsc": "^1.20150623.0",
         "typescript": "^3.8.3"
+    },
+    "storybook": {
+        "icon": "https://pbs.twimg.com/profile_images/1156483710138671104/bro-lNVH_400x400.png",
+        "displayName": "Zeplin"
     }
 }
