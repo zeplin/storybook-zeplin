@@ -39,6 +39,28 @@ const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: Overl
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseDown]);
 
+  // Ability to move zeplin overlay with Shift + Arrow keys
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.shiftKey && event.key === "ArrowUp") {
+        updatePosition({ x: 0, y: -1 });
+      }
+      if (event.shiftKey && event.key === "ArrowDown") {
+        updatePosition({ x: 0, y: 1 });
+      }
+      if (event.shiftKey && event.key === "ArrowRight") {
+        updatePosition({ x: 1, y: 0 });
+      }
+      if (event.shiftKey && event.key === "ArrowLeft") {
+        updatePosition({ x: - 1, y: 0 });
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleMouseDown = () => setMouseDown(true);
 
   return <>
