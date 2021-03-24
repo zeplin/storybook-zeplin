@@ -20,7 +20,6 @@ const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: Overl
   const [position, updatePosition] = useReducer(movementReducer, { x: 0, y: 0 });
   const [mouseDown, setMouseDown] = useState(false);
 
-
   useEffect(() => {
     const handleMouseUp = () => setMouseDown(false);
     window.addEventListener("mouseup", handleMouseUp);
@@ -38,6 +37,29 @@ const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: Overl
 
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseDown]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.shiftKey && event.key === "ArrowUp") {
+        updatePosition({ x: 0, y: -1 });
+      }
+      if (event.shiftKey && event.key === "ArrowDown") {
+        updatePosition({ x: 0, y: 1 });
+      }
+      if (event.shiftKey && event.key === "ArrowRight") {
+        updatePosition({ x: 1, y: 0 });
+      }
+      if (event.shiftKey && event.key === "ArrowLeft") {
+        updatePosition({ x: -1, y: 0 });
+      }
+    }
+
+    if (!isLocked) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLocked]);
 
   const handleMouseDown = () => setMouseDown(true);
 
