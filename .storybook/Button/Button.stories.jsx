@@ -53,7 +53,7 @@ ButtonMultiple.story = {
                 link: ButtonPressed.story.parameters.zeplinLink,
             },
             {
-                name: "Pressed",
+                name: "Disabled",
                 link: ButtonDisabled.story.parameters.zeplinLink,
             },
         ],
