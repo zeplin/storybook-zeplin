@@ -52,7 +52,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     );
 
     const { selectedLink, zeplinData, zoomLevel, loading, error } = state;
-    const designLink = selectedLink || (Array.isArray(zeplinLink) ? zeplinLink[0]?.link : zeplinLink);
+    const designLink = (Array.isArray(zeplinLink) ? selectedLink || zeplinLink[0]?.link : zeplinLink);
 
     const fetchZeplinResource = async () => {
         if (!designLink) {
