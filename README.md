@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="./logo.png" width="280" alt="Zeplin Storybook Addon"/>
+  <img src="https://raw.githubusercontent.com/mertkahyaoglu/storybook-zeplin/master/logo.png" width="280" alt="Zeplin Storybook Addon"/>
   <br/>
   <br/>
 
@@ -17,7 +17,7 @@
 
 [Storybook](https://github.com/storybooks/storybook) addon that embeds Zeplin resources such as screens and components in the addon panel for better design-development workflow.
 
-  <img src="./screenshot.png" width="100%" alt="Zeplin Storybook Addon"/>
+  <img src="https://raw.githubusercontent.com/mertkahyaoglu/storybook-zeplin/master/screenshot.png" width="100%" alt="Zeplin Storybook Addon"/>
 
 ## Links
 
