@@ -54,7 +54,7 @@
         "typescript": "^3.8.3"
     },
     "storybook": {
-        "icon": "https://pbs.twimg.com/profile_images/1156483710138671104/bro-lNVH_400x400.png",
+        "icon": "https://cdn.zeplin.io/assets/lp/img/icZeplin.svg",
         "displayName": "Zeplin"
     }
 }
