@@ -144,7 +144,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Header>
                 {LinksSection}
                 <ResourceName title={name}>{name}</ResourceName>
-                <i>Last updated {relativeDate(updated * 1000)}</i>
+                <i>Updated {relativeDate(updated * 1000)}</i>
                 <HeaderButtons
                     onZoomIn={handleZoomIn}
                     onZoomOut={handleZoomOut}
