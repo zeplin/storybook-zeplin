@@ -18,6 +18,7 @@ interface ZeplinPanelProps {
 
 interface ZeplinData {
     name: string;
+    description: string;
     image: {
         width: number;
         height: number;
@@ -122,6 +123,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     const {
         name,
         image: { original_url, width, height },
+        description,
         updated,
     } = zeplinData;
 
@@ -142,7 +144,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Header>
                 {LinksSection}
                 <ResourceName title={name}>{name}</ResourceName>
-                <i>Last updated {relativeDate(updated * 1000)}</i>
+                <i>Updated {relativeDate(updated * 1000)}</i>
                 <HeaderButtons
                     onZoomIn={handleZoomIn}
                     onZoomOut={handleZoomOut}
@@ -174,6 +176,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
                     />
                 </a>
             </ImageContainer>
+            {description && <Footer>{description}</Footer>}
         </Container>
     );
 };
@@ -223,4 +226,9 @@ const Message = styled.p`
 
 const Select = styled.select`
     margin-right: 15px;
+`;
+
+const Footer = styled.footer`
+    padding: 12px 15px;
+    background-color: #f6f9fc;
 `;
