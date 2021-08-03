@@ -32,11 +32,12 @@
     },
     "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
     "peerDependencies": {
-        "@storybook/addons": "^6.1.10",
-        "@storybook/api": "^6.1.10",
-        "@storybook/components": "^6.1.10",
-        "@storybook/theming": "^6.1.10",
-        "react": ">=16.8.0"
+        "@storybook/addons": "^6.0.0",
+        "@storybook/api": "^6.0.0",
+        "@storybook/components": "^6.0.0",
+        "@storybook/theming": "^6.0.0",
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
     },
     "dependencies": {
         "query-string": "^6.12.1"
