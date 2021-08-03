@@ -2,7 +2,7 @@ import React from "react";
 import HeaderButtons from "./HeaderButtons";
 
 export default {
-    title: "Addon|HeaderButtons",
+    title: "Addon/HeaderButtons",
 };
 
 export const Default = () => (
