@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react"
+import { useParameter } from "@storybook/api";
 import { styled } from "@storybook/theming";
 
 const movementReducer = (state, offset) => {
@@ -17,7 +18,9 @@ interface OverlayImageProps {
 }
 
 const OverlayImage = ({ url, opacity, scaling, isLocked, showDifference }: OverlayImageProps) => {
-  const [position, updatePosition] = useReducer(movementReducer, { x: 0, y: 0 });
+  const isPaddedLayout = useParameter('layout', 'padded') === 'padded';
+  const initialPosition = isPaddedLayout  ? 16 : 0;
+  const [position, updatePosition] = useReducer(movementReducer, { x: initialPosition, y: initialPosition });
   const [mouseDown, setMouseDown] = useState(false);
 
   useEffect(() => {
