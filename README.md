@@ -35,6 +35,15 @@ This addon should work with any framework. If you find a case that the addon doe
 ### 1. Install
 
 ```sh
+# For React projects
+npm install --save-dev storybook-zeplin react-element-to-jsx-string
+# yarn add -D storybook-zeplin react-element-to-jsx-string
+
+# For Angular and Vue projects
+npm install --save-dev storybook-zeplin prettier
+# yarn add -D storybook-zeplin prettier
+
+# For other projects
 npm install --save-dev storybook-zeplin
 # yarn add -D storybook-zeplin
 ```
@@ -138,6 +147,9 @@ Run following commands in separate tabs to start development
 npm run watch
 npm run storybook
 ```
+
+## Notes
+- This addon extracts the storybook data and sends to parent frame to make stories reachable from Zeplin apps. For more information: [zeplin storybook integration](https://zpl.io/story-book)
 
 ## License
 
