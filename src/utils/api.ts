@@ -1,5 +1,6 @@
-import getLinkProperties from "./zeplinLink";
-import { RESOURCE_TYPES, ZEPLIN_TOKEN, ZEPLIN_API_URL } from "../constants";
+import { getZeplinLinkProperties, RESOURCE_TYPES } from "@zeplin/storybook-inspector";
+
+import { ZEPLIN_TOKEN, ZEPLIN_API_URL, ZEPLIN_WEB_BASE, ZEPLIN_APP_BASE } from "../constants";
 
 const zeplinCache = {};
 export async function getZeplinResource(zeplinLink: string) {
@@ -14,7 +15,13 @@ export async function getZeplinResource(zeplinLink: string) {
         return cachedValue;
     }
 
-    const { type, pid, stid, coid, sid } = getLinkProperties(zeplinLink);
+    const { type, pid, stid, coid, sid } = getZeplinLinkProperties(
+        zeplinLink,
+        {
+            web: ZEPLIN_WEB_BASE,
+            app: ZEPLIN_APP_BASE
+        }
+    );
 
     let path;
     switch (type) {
