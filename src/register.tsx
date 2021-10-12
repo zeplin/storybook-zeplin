@@ -18,7 +18,7 @@ import {
 import { postError, postMessage } from "./utils/postToParent";
 
 function getParentOrigin(): string | undefined {
-    const url = document.referrer || document.location.ancestorOrigins[0];
+    const url = document.referrer || document.location.ancestorOrigins?.[0];
     return url && new URL(url).origin;
 }
 
