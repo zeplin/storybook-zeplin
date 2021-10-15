@@ -140,7 +140,7 @@ npm run storybook
 ```
 
 ## Notes
-- This addon extracts the storybook data and sends to parent frame to make stories reachable from Zeplin apps. For more information: [zeplin storybook integration](https://zpl.io/storybook)
+- This addon extracts the Storybook data and sends to parent frame to make stories reachable from Zeplin apps. For more information: [Zeplin Storybook integration](https://zpl.io/article/storybook-integration)
 
 ## License
 
