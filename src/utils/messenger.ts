@@ -5,15 +5,15 @@ type Responder = (data: any) => any;
 const ADDON_SOURCE_NAME = "storybook-zeplin-addon";
 
 class Messenger {
-    respondMapper: Map<string, Responder>;
+    responderMap: Map<string, Responder>;
     constructor() {
-        this.respondMapper = new Map<string, Responder>();
+        this.responderMap = new Map<string, Responder>();
 
         window.addEventListener("message", async ({ data, origin }) => {
             const action = data?.action;
-            if (origin === PARENT_ORIGIN && data?.to === ADDON_SOURCE_NAME && this.respondMapper.has(action)) {
+            if (origin === PARENT_ORIGIN && data?.to === ADDON_SOURCE_NAME && this.responderMap.has(action)) {
                 try {
-                    const response = this.respondMapper.get(action)(data);
+                    const response = this.responderMap.get(action)(data);
                     this.postMessage(action, response);
                 } catch (e) {
                     this.postError(
@@ -50,7 +50,7 @@ class Messenger {
     }
 
     respondOnMessage(action: string, responder: Responder) {
-        this.respondMapper.set(action, responder);
+        this.responderMap.set(action, responder);
     }
 }
 
