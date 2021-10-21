@@ -11,16 +11,10 @@ import {
     ADDON_ID,
     PARAM_KEY,
     PANEL_ID,
-    PARENT_ORIGIN,
     ZEPLIN_WEB_BASE,
-    ZEPLIN_APP_BASE,
+    ZEPLIN_APP_BASE
 } from "./constants";
-import { postError, postMessage } from "./utils/postToParent";
-
-function getParentOrigin(): string | undefined {
-    const url = document.referrer || document.location.ancestorOrigins?.[0];
-    return url && new URL(url).origin;
-}
+import { messenger } from "./utils/messenger";
 
 addons.register(ADDON_ID, async api => {
     const render = ({ active, key }) => {
@@ -40,11 +34,6 @@ addons.register(ADDON_ID, async api => {
         render,
     });
 
-    if (getParentOrigin() !== PARENT_ORIGIN) {
-        // Bypass data extraction
-        return;
-    }
-
     const globalContext = await getGlobalContext(
         window,
         {
@@ -54,8 +43,8 @@ addons.register(ADDON_ID, async api => {
     );
 
     if (lt(api.getCurrentVersion().version, "5.0.0")) {
-        postError(
-            "stories",
+        messenger.postError(
+            "ready",
             {
                 message: "version is less than 5.0.0",
                 extra: api.getCurrentVersion()
@@ -64,37 +53,8 @@ addons.register(ADDON_ID, async api => {
         return;
     }
 
-    try {
-        const stories = getStories(globalContext);
-        postMessage("stories", stories);
-    } catch (e) {
-        postError(
-            "stories",
-            {
-                message: e?.message || e || "Unknown error"
-            }
-        );
-    }
+    messenger.respondOnMessage("stories", () => getStories(globalContext));
+    messenger.respondOnMessage("story-detail", (data) => getStoryDetail(data.payload?.id, globalContext));
 
-    const selection = api.getCurrentStoryData();
-
-    if (!selection?.id) {
-        return;
-    }
-
-    try {
-        const story = getStoryDetail(selection.id, globalContext);
-        if(story) {
-            postMessage("story-detail", story);
-        }
-    } catch (e) {
-        postError(
-            "story-detail",
-            {
-                message: e?.message || e || "Unknown error"
-            }
-        );
-    }
-
-
+    messenger.postMessage("ready");
 });
