@@ -12,8 +12,8 @@
         "popular"
     ],
     "scripts": {
+        "prepare": "npm run build",
         "build": "tsc",
-        "prepublish": "tsc",
         "watch": "tsc --watch --preserveWatchOutput",
         "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook --no-manager-cache",
         "build-storybook": "NODE_ENV=production build-storybook"
@@ -55,7 +55,6 @@
         "babel-loader": "^8.1.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "tsc": "^1.20150623.0",
         "typescript": "^4.4.3"
     },
     "storybook": {
