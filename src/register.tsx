@@ -5,7 +5,6 @@ import { AddonPanel } from "@storybook/components";
 import { useParameter } from "@storybook/api";
 import { getStoryDetail, getStories, getGlobalContext } from "@zeplin/storybook-inspector";
 
-import ZeplinPanel from "./components/ZeplinPanel";
 import {
     TITLE,
     ADDON_ID,
@@ -15,6 +14,7 @@ import {
     ZEPLIN_APP_BASE
 } from "./constants";
 import { messenger } from "./utils/messenger";
+import { MainPanel } from "./components/MainPanel";
 
 addons.register(ADDON_ID, async api => {
     const render = ({ active, key }) => {
@@ -22,7 +22,7 @@ addons.register(ADDON_ID, async api => {
 
         return (
             <AddonPanel active={active} key={key}>
-                <ZeplinPanel zeplinLink={zeplinLink} />
+                <MainPanel zeplinLink={zeplinLink} />
             </AddonPanel>
         );
     }

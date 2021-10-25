@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useReducer } from "react";
+import { Form } from "@storybook/components";
 import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
@@ -6,14 +7,10 @@ import HeaderButtons from "./HeaderButtons";
 import { getZeplinResource } from "../utils/api";
 import { relativeDate } from "../utils/date";
 import OverlayPanel from "./OverlayPanel";
-
-interface ZeplinkLink {
-    name: string;
-    link: string;
-}
+import { ZeplinLink } from "../types/ZeplinLink";
 
 interface ZeplinPanelProps {
-    zeplinLink: ZeplinkLink[] | string;
+    zeplinLink: ZeplinLink[] | string;
 }
 
 interface ZeplinData {
@@ -127,10 +124,11 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
         updated,
     } = zeplinData;
 
+
     const LinksSection = Array.isArray(zeplinLink) && (
         <Select onChange={selectZeplinLink} value={designLink}>
-            {(zeplinLink as ZeplinkLink[]).map(
-                ({ name, link }: ZeplinkLink) => (
+            {zeplinLink.map(
+                ({ name, link }) => (
                     <option key={name} value={link}>
                         {name}
                     </option>
@@ -224,7 +222,7 @@ const Message = styled.p`
     margin: 15px;
 `;
 
-const Select = styled.select`
+const Select = styled(Form.Select)`
     margin-right: 15px;
 `;
 

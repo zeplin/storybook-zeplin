@@ -2,9 +2,20 @@ import { getZeplinLinkProperties, RESOURCE_TYPES } from "@zeplin/storybook-inspe
 
 import { ZEPLIN_TOKEN, ZEPLIN_API_URL, ZEPLIN_WEB_BASE, ZEPLIN_APP_BASE } from "../constants";
 
+const ZEPLIN_TOKEN_STORAGE_KEY = "storybook_zeplin:access_token"
 const zeplinCache = {};
+
+
+export function getZeplinToken() {
+    return ZEPLIN_TOKEN || localStorage.getItem(ZEPLIN_TOKEN_STORAGE_KEY);
+}
+
+export function setZeplinToken(token: string) {
+    localStorage.setItem(ZEPLIN_TOKEN_STORAGE_KEY, token);
+}
+
 export async function getZeplinResource(zeplinLink: string) {
-    if (!ZEPLIN_TOKEN) {
+    if (!getZeplinToken()) {
         return {
             error: "STORYBOOK_ZEPLIN_TOKEN is not set in environment variables.",
         };
@@ -43,7 +54,7 @@ export async function getZeplinResource(zeplinLink: string) {
 
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
-    headers.set("Authorization", `Bearer ${ZEPLIN_TOKEN}`);
+    headers.set("Authorization", `Bearer ${getZeplinToken()}`);
 
     const response = await fetch(ZEPLIN_API_URL + path, {
         headers,
