@@ -15,13 +15,13 @@ interface ZeplinPanelProps {
 
 interface ZeplinData {
     name: string;
-    description: string;
+    description?: string;
     image: {
         width: number;
         height: number;
-        original_url: string;
+        originalUrl: string;
     };
-    updated: number;
+    updated?: number;
 }
 
 interface ZeplinState {
@@ -68,8 +68,8 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
         setState({
             loading: false,
-            error: data?.error,
-            zeplinData: data,
+            error: 'error' in data ? data.error : undefined,
+            zeplinData: 'error' in data ? undefined : data,
         });
     };
 
@@ -119,7 +119,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
     const {
         name,
-        image: { original_url, width, height },
+        image: { originalUrl, width, height },
         description,
         updated,
     } = zeplinData;
@@ -142,7 +142,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Header>
                 {LinksSection}
                 <ResourceName title={name}>{name}</ResourceName>
-                <i>Updated {relativeDate(updated * 1000)}</i>
+                {updated && <i>Updated {relativeDate(updated * 1000)}</i>}
                 <HeaderButtons
                     onZoomIn={handleZoomIn}
                     onZoomOut={handleZoomOut}
@@ -153,7 +153,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Divider />
 
             <Header>
-                <OverlayPanel imageUrl={original_url}/>
+                <OverlayPanel imageUrl={originalUrl}/>
             </Header>
 
             <Divider />
@@ -167,7 +167,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
                 >
                     <img
                         style={{ transform: `scale(${zoomLevel})` }}
-                        src={original_url}
+                        src={originalUrl}
                         alt={name}
                         width={width}
                         height={height}
