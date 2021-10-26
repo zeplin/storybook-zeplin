@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import ZeplinPanel from "./ZeplinPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
 import { PATForm } from "./PATForm";
-import { getZeplinToken, setZeplinToken } from "../utils/api";
+import { isLoggedIn, login, logout } from "../utils/api";
 
 
 
@@ -12,12 +12,15 @@ interface MainPanelProps {
 }
 
 export const MainPanel: FunctionComponent<MainPanelProps> = ({ zeplinLink }) => {
-    const [token, setToken] = useState<string>(getZeplinToken());
-    if (!token) {
+    const [loggedIn, setLoggedIn] = useState<boolean>(isLoggedIn());
+    if (!loggedIn) {
         return <PATForm onSubmit={(newToken) => {
-            setToken(newToken);
-            setZeplinToken(newToken);
+            login(newToken);
+            setLoggedIn(true);
         }} />;
     }
-    return <ZeplinPanel zeplinLink={zeplinLink} />;
+    return <ZeplinPanel zeplinLink={zeplinLink} onLogout={() => {
+        logout();
+        setLoggedIn(false);
+    }} />;
 }
