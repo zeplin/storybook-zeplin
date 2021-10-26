@@ -34,12 +34,13 @@ addons.register(ADDON_ID, async api => {
         render,
     });
 
-    const globalContext = await getGlobalContext(
+    const globalContextPromise = getGlobalContext(
         window,
         {
             web: ZEPLIN_WEB_BASE,
             app: ZEPLIN_APP_BASE
-        }
+        },
+        Infinity // We will get client API from window object eventually, No need to timeout.
     );
 
     if (lt(api.getCurrentVersion().version, "5.0.0")) {
@@ -53,8 +54,8 @@ addons.register(ADDON_ID, async api => {
         return;
     }
 
-    messenger.respondOnMessage("stories", () => getStories(globalContext));
-    messenger.respondOnMessage("story-detail", (data) => getStoryDetail(data.payload?.id, globalContext));
+    messenger.respondOnMessage("stories", async () => getStories(await globalContextPromise));
+    messenger.respondOnMessage("story-detail", async (data) => getStoryDetail(data.payload?.id, await globalContextPromise));
 
     messenger.postMessage("ready");
 });

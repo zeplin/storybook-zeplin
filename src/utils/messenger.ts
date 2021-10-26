@@ -13,7 +13,7 @@ class Messenger {
             const action = data?.action;
             if (origin === PARENT_ORIGIN && data?.to === ADDON_SOURCE_NAME && this.responderMap.has(action)) {
                 try {
-                    const response = this.responderMap.get(action)(data);
+                    const response = await this.responderMap.get(action)(data);
                     this.postMessage(action, response);
                 } catch (e) {
                     this.postError(

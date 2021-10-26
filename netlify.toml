@@ -1,4 +1,4 @@
 [[headers]]
   for = "/*"
     [headers.values]
-    Access-Control-Allow-Origin = "https://beta.zeplin.io"
+    Access-Control-Allow-Origin = "https://app.zeplin.io"
