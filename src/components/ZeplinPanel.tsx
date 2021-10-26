@@ -1,35 +1,24 @@
 import React, { useEffect, useCallback, useReducer } from "react";
+import { Form, Link } from "@storybook/components";
 import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
 
-import { getZeplinResource } from "../utils/api";
+import { getUser, getZeplinResource } from "../utils/api";
 import { relativeDate } from "../utils/date";
 import OverlayPanel from "./OverlayPanel";
-
-interface ZeplinkLink {
-    name: string;
-    link: string;
-}
+import { ZeplinLink } from "../types/ZeplinLink";
+import { Component, User, Screen } from "@zeplin/sdk";
 
 interface ZeplinPanelProps {
-    zeplinLink: ZeplinkLink[] | string;
-}
-
-interface ZeplinData {
-    name: string;
-    description: string;
-    image: {
-        width: number;
-        height: number;
-        original_url: string;
-    };
-    updated: number;
+    zeplinLink: ZeplinLink[] | string;
+    onLogout: () => void;
 }
 
 interface ZeplinState {
     selectedLink: string;
-    zeplinData: ZeplinData | null;
+    zeplinData: Component | Screen | null;
+    user: User | null;
     zoomLevel: number;
     loading: boolean;
     error: string | null;
@@ -38,12 +27,13 @@ interface ZeplinState {
 const initialState: ZeplinState = {
     selectedLink: "",
     zeplinData: null,
+    user: null,
     zoomLevel: 1,
     loading: true,
     error: null,
 };
 
-const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
+const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     const [state, setState] = useReducer(
         (state: ZeplinState, newState: Partial<ZeplinState>) => ({
             ...state,
@@ -52,7 +42,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
         initialState
     );
 
-    const { selectedLink, zeplinData, zoomLevel, loading, error } = state;
+    const { selectedLink, zeplinData, zoomLevel, loading, error, user } = state;
     const designLink = (Array.isArray(zeplinLink) ? selectedLink || zeplinLink[0]?.link : zeplinLink);
 
     const fetchZeplinResource = async () => {
@@ -71,14 +61,26 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
         setState({
             loading: false,
-            error: data?.error,
-            zeplinData: data,
+            error: 'error' in data ? data.error : undefined,
+            zeplinData: 'error' in data ? undefined : data,
         });
     };
+
+    const fetchUser = async () => {
+        const data = await getUser();
+
+        setState({
+            user: 'error' in data ? undefined : data,
+        });
+    }
 
     useEffect(() => {
         fetchZeplinResource();
     }, [zeplinLink, selectedLink]);
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
     const selectZeplinLink = useCallback((event) => {
         setState({ selectedLink: event.target.value });
@@ -109,7 +111,25 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
     }
 
     if (error) {
-        return <Message>{error}</Message>;
+        return (
+            <Rows>
+                <p>
+                    {error}
+                </p>
+                <p>
+                    {user?.username && <>
+                        {"You are currently logged in as "}
+                        <strong>{user?.username}</strong>
+                        {". "}
+                    </>}
+                    {"If you prefer using another account, you can "}
+                    <Link onClick={onLogout}>
+                        log out
+                    </Link>
+                    {" first."}
+                </p>
+            </Rows>
+        );
     }
 
     if (!zeplinData) {
@@ -122,15 +142,16 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
 
     const {
         name,
-        image: { original_url, width, height },
+        image: { originalUrl, width, height },
         description,
         updated,
     } = zeplinData;
 
+
     const LinksSection = Array.isArray(zeplinLink) && (
         <Select onChange={selectZeplinLink} value={designLink}>
-            {(zeplinLink as ZeplinkLink[]).map(
-                ({ name, link }: ZeplinkLink) => (
+            {zeplinLink.map(
+                ({ name, link }) => (
                     <option key={name} value={link}>
                         {name}
                     </option>
@@ -144,8 +165,10 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Header>
                 {LinksSection}
                 <ResourceName title={name}>{name}</ResourceName>
-                <i>Updated {relativeDate(updated * 1000)}</i>
+                {updated && <i>Updated {relativeDate(updated * 1000)}</i>}
                 <HeaderButtons
+                    username={user?.username}
+                    onLogout={onLogout}
                     onZoomIn={handleZoomIn}
                     onZoomOut={handleZoomOut}
                     onZoomReset={handleZoomReset}
@@ -155,7 +178,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
             <Divider />
 
             <Header>
-                <OverlayPanel imageUrl={original_url}/>
+                <OverlayPanel imageUrl={originalUrl}/>
             </Header>
 
             <Divider />
@@ -169,7 +192,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink }) => {
                 >
                     <img
                         style={{ transform: `scale(${zoomLevel})` }}
-                        src={original_url}
+                        src={originalUrl}
                         alt={name}
                         width={width}
                         height={height}
@@ -224,7 +247,20 @@ const Message = styled.p`
     margin: 15px;
 `;
 
-const Select = styled.select`
+const Rows = styled.div`
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    p {
+        margin: 0;
+    }
+    p:first-child {
+        color: red;
+    }
+`;
+
+const Select = styled(Form.Select)`
     margin-right: 15px;
 `;
 
