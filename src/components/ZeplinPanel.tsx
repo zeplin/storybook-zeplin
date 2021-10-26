@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useReducer } from "react";
-import { Form } from "@storybook/components";
+import { Form, Link } from "@storybook/components";
 import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
@@ -111,7 +111,25 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     }
 
     if (error) {
-        return <Message>{error}</Message>;
+        return (
+            <Rows>
+                <p>
+                    {error}
+                </p>
+                <p>
+                    {user?.username && <>
+                        {"You are using "}
+                        <strong>{user?.username}</strong>
+                        {" account. "}
+                    </>}
+                    {"If you prefer using another account, you can "}
+                    <Link onClick={onLogout}>
+                        log out
+                    </Link>
+                    {" first."}
+                </p>
+            </Rows>
+        );
     }
 
     if (!zeplinData) {
@@ -227,6 +245,15 @@ const Divider = styled.hr`
 
 const Message = styled.p`
     margin: 15px;
+`;
+
+const Rows = styled.div`
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    p {
+        margin: 0;
+    }
 `;
 
 const Select = styled(Form.Select)`

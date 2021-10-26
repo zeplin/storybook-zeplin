@@ -83,7 +83,7 @@ export async function getZeplinResource(
         }
     } catch (e) {
         return {
-            error: e.message,
+            error: e.response?.data?.message || e.message,
         }
     }
 }
@@ -98,7 +98,7 @@ export async function getUser(): Promise<User | { error: string }> {
         return data;
     } catch (e) {
         return {
-            error: e.message
+            error: e.response?.data?.message || e.message,
         }
     }
 }
