@@ -39,22 +39,7 @@ npm install --save-dev storybook-zeplin
 # yarn add -D storybook-zeplin
 ```
 
-### 2. Add Zeplin access token to your environment variables
-
-In order to access your Zeplin resources, you need to provide your access token. You can create one from https://app.zeplin.io/profile/developer.
-This token needs to provided as an environment variable called `STORYBOOK_ZEPLIN_TOKEN`. You can create `.env` file in your project's root folder and define it in there or
-you can use your command line for it.
-
-```shell
-# .env
-STORYBOOK_ZEPLIN_TOKEN="eyJhbGciOiJIUzI1N.."
-```
-
-#### ⚠️ Disclaimer
-
-Please note that this token can be accessed from client side. For security reasons, it would be safe to use this addon on localhost or internal network.
-
-### 3. Register the addon in `main.js`
+### 2. Register the addon in `main.js`
 
 ```js
 // .storybook/main.js
@@ -70,7 +55,7 @@ If you're using Storybook@5.0.x;
 import "storybook-zeplin/register";
 ```
 
-### 4. Add a Zeplin link to your story
+### 3. Add a Zeplin link to your story
 
 Storybook Zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link or just a string for the link.
 For the link, you can use full web URL or app URI of Zeplin components/screens.
@@ -129,6 +114,27 @@ Default.story = {
     },
 };
 ```
+
+### 4. (Optional) Add Zeplin access token to your environment variables
+
+To access your Zeplin resources publicly, you need to provide your access token.
+You can create one from [Developer](https://app.zeplin.io/profile/developer) tab in your profile page.
+
+Addon prompts to get token when you open the addon's tab. If you want to skip login process,
+you can provide the token as an environment variable called `STORYBOOK_ZEPLIN_TOKEN`.
+You can create `.env` file in your project's root folder, or you can use your command line for it.
+
+```shell
+# .env
+STORYBOOK_ZEPLIN_TOKEN="eyJhbGciOiJIUzI1N.."
+```
+
+#### ⚠️ Disclaimer
+
+Please note that this token can be accessed from client side.
+For security reasons, please prefer setting the token as environment variable,
+if the storybook instance runs on localhost or internal network.
+
 
 ## Development
 
