@@ -118,9 +118,9 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
                 </p>
                 <p>
                     {user?.username && <>
-                        {"You are using "}
+                        {"You are currently logged in as "}
                         <strong>{user?.username}</strong>
-                        {" account. "}
+                        {". "}
                     </>}
                     {"If you prefer using another account, you can "}
                     <Link onClick={onLogout}>
@@ -251,8 +251,12 @@ const Rows = styled.div`
     margin: 15px;
     display: flex;
     flex-direction: column;
+    gap: 12px;
     p {
         margin: 0;
+    }
+    p:first-child {
+        color: red;
     }
 `;
 

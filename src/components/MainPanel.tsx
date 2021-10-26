@@ -5,8 +5,6 @@ import { ZeplinLink } from "../types/ZeplinLink";
 import { PATForm } from "./PATForm";
 import { isLoggedIn, login, logout } from "../utils/api";
 
-
-
 interface MainPanelProps {
     zeplinLink: ZeplinLink[] | string;
 }

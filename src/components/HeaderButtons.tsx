@@ -19,7 +19,7 @@ const ProfileTooltip: FunctionComponent<ProfileTooltipProps> = ({ username, onLo
     <TooltipWrapper>
         <TooltipMessage
             title={username && <TooltipTitle>{username}</TooltipTitle>}
-            links={[{ onClick: onLogout, title: "logout" }]}
+            links={[{ onClick: onLogout, title: "Log out" }]}
         />
     </TooltipWrapper>
 );
