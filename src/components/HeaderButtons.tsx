@@ -16,10 +16,12 @@ interface ProfileTooltipProps {
 }
 
 const ProfileTooltip: FunctionComponent<ProfileTooltipProps> = ({ username, onLogout }) => (
-    <TooltipMessage
-        title={username && <TooltipTitle>{username}</TooltipTitle>}
-        links={[{ onClick: onLogout, title: "logout" }]}
-    />
+    <TooltipWrapper>
+        <TooltipMessage
+            title={username && <TooltipTitle>{username}</TooltipTitle>}
+            links={[{ onClick: onLogout, title: "logout" }]}
+        />
+    </TooltipWrapper>
 );
 
 export default function HeaderButtons({
@@ -78,4 +80,10 @@ const Container = styled.div`
         margin-left: 15px;
         color: #999;
     }
+`;
+
+const TooltipWrapper = styled.div`
+& > div {
+  width: auto;
+}
 `;

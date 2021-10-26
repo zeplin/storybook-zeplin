@@ -14,9 +14,13 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
     };
     return <Rows>
         <StyledForm onSubmit={handleSubmit}>
-            <Form.Input value={token} onChange={({ target }) => setToken((target as any)?.value)} />
+            <StyledInput
+                value={token}
+                placeholder="Personal Access Token"
+                onChange={({ target }) => setToken((target as any)?.value)}
+            />
             <Button type="submit" primary small>
-                Set Personal Access Token
+                Save
             </Button>
         </StyledForm>
         <div>
@@ -39,11 +43,15 @@ const Rows = styled.div`
     padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 22px;
 `;
 
 const StyledForm = styled(Form)`
     display: flex;
     flex-direction: row;
     gap: 15px;
-`
+`;
+
+const StyledInput = styled(Form.Input)`
+    flex: 1;
+`;
