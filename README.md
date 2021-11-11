@@ -23,6 +23,7 @@
 
 - [Demo](https://storybook-zeplin.netlify.app)
 - [Blog Post](https://blog.zeplin.io/storybook-and-zeplin-a-new-integration-228951e336e9)
+- [Highlight Components](https://blog.zeplin.io/announcing-improved-storybook-integration-highlight-components)
 
 ## Requirements
 
