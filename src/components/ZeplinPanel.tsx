@@ -255,7 +255,7 @@ const Rows = styled.div`
     p {
         margin: 0;
     }
-    p:first-child {
+    p:first-of-type {
         color: red;
     }
 `;
