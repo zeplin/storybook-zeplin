@@ -4,11 +4,12 @@ import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
 
-import { getUser, getZeplinResource } from "../utils/api";
+import { getConnectedComponents, getUser, getZeplinResource } from "../utils/api";
 import { relativeDate } from "../utils/date";
 import OverlayPanel from "./OverlayPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
 import { Component, User, Screen } from "@zeplin/sdk";
+import { useStorybookState } from "@storybook/api";
 
 interface ZeplinPanelProps {
     zeplinLink: ZeplinLink[] | string;
@@ -22,6 +23,7 @@ interface ZeplinState {
     zoomLevel: number;
     loading: boolean;
     error: string | null;
+    connectedComponents: string[] | null;
 }
 
 const initialState: ZeplinState = {
@@ -31,7 +33,18 @@ const initialState: ZeplinState = {
     zoomLevel: 1,
     loading: true,
     error: null,
+    connectedComponents: null
 };
+
+const toLinks = (link: ZeplinLink[] | string | undefined): ZeplinLink[] =>{
+    if (!link) {
+        return [];
+    }
+    if (typeof link === "string") {
+        return [{ link, name: "Component" }];
+    }
+    return link;
+}
 
 const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     const [state, setState] = useReducer(
@@ -42,10 +55,19 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         initialState
     );
 
-    const { selectedLink, zeplinData, zoomLevel, loading, error, user } = state;
-    const designLink = (Array.isArray(zeplinLink) ? selectedLink || zeplinLink[0]?.link : zeplinLink);
+    const { storyId } = useStorybookState();
+
+    const { selectedLink, zeplinData, zoomLevel, loading, error, user, connectedComponents } = state;
+
+    const links = toLinks(zeplinLink);
+    const designLink = selectedLink || links[0]?.link || connectedComponents?.[0];
 
     const fetchZeplinResource = async () => {
+        // If the connected components are not loaded yet, we need to load them first
+        if (!connectedComponents && !designLink) {
+            return;
+        }
+
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
             setState({
@@ -66,6 +88,15 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         });
     };
 
+    const fetchConnectedComponents = async (storyId) => {
+        const data = await getConnectedComponents(storyId);
+
+        setState({
+            error: 'error' in data ? data.error : undefined,
+            connectedComponents: 'error' in data ? undefined : data,
+        });
+    };
+
     const fetchUser = async () => {
         const data = await getUser();
 
@@ -76,11 +107,16 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     useEffect(() => {
         fetchZeplinResource();
-    }, [zeplinLink, selectedLink]);
+    }, [zeplinLink, selectedLink, connectedComponents]);
 
     useEffect(() => {
         fetchUser();
     }, []);
+
+    useEffect(() => {
+        setState({ connectedComponents: null });
+        fetchConnectedComponents(storyId);
+    }, [storyId]);
 
     const selectZeplinLink = useCallback((event) => {
         setState({ selectedLink: event.target.value });
@@ -97,14 +133,6 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     const handleZoomReset = () => {
         setState({ zoomLevel: 1 });
     };
-
-    if (!zeplinLink || zeplinLink.length <= 0) {
-        return (
-            <Message>
-                <strong>zeplinLink</strong> is not provided for this story.
-            </Message>
-        );
-    }
 
     if (loading) {
         return <Message>Loading…</Message>;
@@ -132,6 +160,14 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         );
     }
 
+    if (!designLink) {
+        return (
+            <Message>
+                <strong>zeplinLink</strong> is not provided for this story.
+            </Message>
+        );
+    }
+
     if (!zeplinData) {
         return (
             <Message>
@@ -147,10 +183,16 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         updated,
     } = zeplinData;
 
+    const combinedLinks = (
+        links.length > 0
+            ? links
+            : connectedComponents.map((link, i) => ({ link, name: `Component ${i+1}`}))
+    );
 
-    const LinksSection = Array.isArray(zeplinLink) && (
+
+    const LinksSection = combinedLinks.length > 1 && (
         <Select onChange={selectZeplinLink} value={designLink}>
-            {zeplinLink.map(
+            {combinedLinks.map(
                 ({ name, link }) => (
                     <option key={name} value={link}>
                         {name}

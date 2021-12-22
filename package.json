@@ -40,7 +40,7 @@
         "react-dom": ">=16.8.0"
     },
     "dependencies": {
-        "@zeplin/sdk": "^1.6.2",
+        "@zeplin/sdk": "^1.8.3",
         "@zeplin/storybook-inspector": "^0.1.2",
         "query-string": "^6.12.1",
         "semver": "^7.3.5"
