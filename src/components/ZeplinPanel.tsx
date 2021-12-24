@@ -4,7 +4,7 @@ import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
 
-import { getConnectedComponents, getUser, getZeplinResource } from "../utils/api";
+import { getZeplinLinksFromConnectedComponents, getUser, getZeplinResource } from "../utils/api";
 import { relativeDate } from "../utils/date";
 import OverlayPanel from "./OverlayPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
@@ -23,7 +23,7 @@ interface ZeplinState {
     zoomLevel: number;
     loading: boolean;
     error: string | null;
-    connectedComponents: string[] | null;
+    linksFromConnectedComponents: string[] | null;
 }
 
 const initialState: ZeplinState = {
@@ -33,7 +33,7 @@ const initialState: ZeplinState = {
     zoomLevel: 1,
     loading: true,
     error: null,
-    connectedComponents: null
+    linksFromConnectedComponents: null
 };
 
 const toLinks = (link: ZeplinLink[] | string | undefined): ZeplinLink[] =>{
@@ -57,14 +57,14 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     const { storyId } = useStorybookState();
 
-    const { selectedLink, zeplinData, zoomLevel, loading, error, user, connectedComponents } = state;
+    const { selectedLink, zeplinData, zoomLevel, loading, error, user, linksFromConnectedComponents } = state;
 
     const links = toLinks(zeplinLink);
-    const designLink = selectedLink || links[0]?.link || connectedComponents?.[0];
+    const designLink = selectedLink || links[0]?.link || linksFromConnectedComponents?.[0];
 
     const fetchZeplinResource = async () => {
         // If the connected components are not loaded yet, we need to load them first
-        if (!connectedComponents && !designLink) {
+        if (!linksFromConnectedComponents && !designLink) {
             return;
         }
 
@@ -89,11 +89,11 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     };
 
     const fetchConnectedComponents = async (storyId) => {
-        const data = await getConnectedComponents(storyId);
+        const data = await getZeplinLinksFromConnectedComponents(storyId);
 
         setState({
             error: 'error' in data ? data.error : undefined,
-            connectedComponents: 'error' in data ? undefined : data,
+            linksFromConnectedComponents: 'error' in data ? undefined : data,
         });
     };
 
@@ -107,14 +107,14 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     useEffect(() => {
         fetchZeplinResource();
-    }, [zeplinLink, selectedLink, connectedComponents]);
+    }, [zeplinLink, selectedLink, linksFromConnectedComponents]);
 
     useEffect(() => {
         fetchUser();
     }, []);
 
     useEffect(() => {
-        setState({ connectedComponents: null });
+        setState({ linksFromConnectedComponents: null });
         fetchConnectedComponents(storyId);
     }, [storyId]);
 
@@ -186,7 +186,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     const combinedLinks = (
         links.length > 0
             ? links
-            : connectedComponents.map((link, i) => ({ link, name: `Component ${i+1}`}))
+            : linksFromConnectedComponents.map((link, i) => ({ link, name: `Component ${i+1}`}))
     );
 
 

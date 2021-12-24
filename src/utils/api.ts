@@ -158,7 +158,7 @@ export async function getUser(): Promise<User | { error: string }> {
     }
 }
 
-export async function getConnectedComponents(storyId: string): Promise<string[] | { error: string }>{
+export async function getZeplinLinksFromConnectedComponents(storyId: string): Promise<string[] | { error: string }>{
     if (!ZEPLIN_STYLEGUIDE_ID && !ZEPLIN_PROJECT_ID) {
         return [];
     }
