@@ -116,7 +116,19 @@ Default.story = {
 };
 ```
 
-### 4. (Optional) Add Zeplin access token to your environment variables
+### 4. (Optional) Add Zeplin project or styleguide link to your global parameters
+
+The addon shows connected components when a project or styleguide link is provided as `zeplinLink`.
+If you are using Zeplin's connected component feature, you can provide the link globally as in the example below.
+
+```js
+//.storybook/preview.js
+export const parameters = {
+    zeplinLink: "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b",
+};
+```
+
+### 5. (Optional) Add Zeplin access token to your environment variables
 
 To access your Zeplin resources publicly, you need to provide your access token.
 You can create one from [Developer](https://app.zeplin.io/profile/developer) tab in your profile page.
