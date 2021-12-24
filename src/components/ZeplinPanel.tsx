@@ -4,12 +4,12 @@ import { styled } from "@storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
 
-import { getZeplinLinksFromConnectedComponents, getUser, getZeplinResource } from "../utils/api";
+import { getUser, getZeplinResource } from "../utils/api";
 import { relativeDate } from "../utils/date";
 import OverlayPanel from "./OverlayPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
 import { Component, User, Screen } from "@zeplin/sdk";
-import { useStorybookState } from "@storybook/api";
+import { useLinks } from "./hooks";
 
 interface ZeplinPanelProps {
     zeplinLink: ZeplinLink[] | string;
@@ -52,19 +52,19 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
             ...state,
             ...newState,
         }),
-        initialState
+        initialState,
+        undefined
     );
 
-    const { storyId } = useStorybookState();
+    const { links, loading: linksLoading, error: LinksError } = useLinks(zeplinLink);
 
-    const { selectedLink, zeplinData, zoomLevel, loading, error, user, linksFromConnectedComponents } = state;
+    const { selectedLink, zeplinData, zoomLevel, loading, error, user } = state;
 
-    const links = toLinks(zeplinLink);
-    const designLink = selectedLink || links[0]?.link || linksFromConnectedComponents?.[0];
+    const designLink = selectedLink || links[0]?.link;
 
     const fetchZeplinResource = async () => {
         // If the connected components are not loaded yet, we need to load them first
-        if (!linksFromConnectedComponents && !designLink) {
+        if (linksLoading && !designLink) {
             return;
         }
 
@@ -88,15 +88,6 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         });
     };
 
-    const fetchConnectedComponents = async (storyId) => {
-        const data = await getZeplinLinksFromConnectedComponents(storyId);
-
-        setState({
-            error: 'error' in data ? data.error : undefined,
-            linksFromConnectedComponents: 'error' in data ? undefined : data,
-        });
-    };
-
     const fetchUser = async () => {
         const data = await getUser();
 
@@ -107,16 +98,11 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     useEffect(() => {
         fetchZeplinResource();
-    }, [zeplinLink, selectedLink, linksFromConnectedComponents]);
+    }, [designLink, linksLoading]);
 
     useEffect(() => {
         fetchUser();
     }, []);
-
-    useEffect(() => {
-        setState({ linksFromConnectedComponents: null });
-        fetchConnectedComponents(storyId);
-    }, [storyId]);
 
     const selectZeplinLink = useCallback((event) => {
         setState({ selectedLink: event.target.value });
@@ -134,15 +120,15 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         setState({ zoomLevel: 1 });
     };
 
-    if (loading) {
+    if (loading || linksLoading) {
         return <Message>Loading…</Message>;
     }
 
-    if (error) {
+    if (error || LinksError) {
         return (
             <Rows>
                 <p>
-                    {error}
+                    {error || LinksError}
                 </p>
                 <p>
                     {user?.username && <>
@@ -183,16 +169,9 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         updated,
     } = zeplinData;
 
-    const combinedLinks = (
-        links.length > 0
-            ? links
-            : linksFromConnectedComponents.map((link, i) => ({ link, name: `Component ${i+1}`}))
-    );
-
-
-    const LinksSection = combinedLinks.length > 1 && (
+    const LinksSection = links.length > 1 && (
         <Select onChange={selectZeplinLink} value={designLink}>
-            {combinedLinks.map(
+            {links.map(
                 ({ name, link }) => (
                     <option key={name} value={link}>
                         {name}

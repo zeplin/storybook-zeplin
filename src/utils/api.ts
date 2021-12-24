@@ -10,16 +10,14 @@ import {
     ZEPLIN_API_URL,
     ZEPLIN_WEB_BASE,
     ZEPLIN_APP_BASE,
-    ZEPLIN_STYLEGUIDE_ID,
-    ZEPLIN_PROJECT_ID
 } from "../constants";
 
 type ZeplinResource = Component | Screen;
 
 const ZEPLIN_TOKEN_STORAGE_KEY = "storybook_zeplin:access_token";
 let cachedUser: undefined | User;
-const zeplinCache: Map<string, ZeplinResource> = new Map();
-let cachedConnectedComponents: undefined | ConnectedComponent[];
+const zeplinResourceCache: Map<string, ZeplinResource> = new Map();
+const zeplinConnectedComponentsCache: Map<string, ConnectedComponent[]> = new Map();
 const zeplinApi = new ZeplinApi(
     new Configuration({
         accessToken: getZeplinToken
@@ -27,30 +25,46 @@ const zeplinApi = new ZeplinApi(
     ZEPLIN_API_URL
 );
 
+type ConnectedComponentParams = {
+    projectId: string;
+} | {
+    styleguideId: string;
+};
+
 function getZeplinToken(): string | undefined {
     return localStorage.getItem(ZEPLIN_TOKEN_STORAGE_KEY) || ZEPLIN_TOKEN;
 }
 
-async function cacheConnectedComponents() {
+const ZEPLIN_PROJECT_ID = "61bbcbc4477fb94daa1c041f";
+const ZEPLIN_STYLEGUIDE_ID = null;
+
+
+async function getConnectedComponents(params: ConnectedComponentParams): Promise<ConnectedComponent[]> {
+    const isProject = "projectId" in params;
+    const resourceId = "projectId" in params ? params.projectId : params.styleguideId;
+    const cachedValue = zeplinConnectedComponentsCache.get(resourceId);
+    if (cachedValue) {
+        return cachedValue;
+    }
     const { data: { numberOfConnectedComponents } } = (
-        ZEPLIN_PROJECT_ID
-            ? await zeplinApi.projects.getProject(ZEPLIN_PROJECT_ID)
-            : await zeplinApi.styleguides.getStyleguide(ZEPLIN_STYLEGUIDE_ID)
+        isProject
+            ? await zeplinApi.projects.getProject(resourceId)
+            : await zeplinApi.styleguides.getStyleguide(resourceId)
     );
     const numberOfRequest = Math.ceil(numberOfConnectedComponents / 100);
     const requestIndices = Array.from(Array(numberOfRequest).keys());
-    cachedConnectedComponents = (await Promise.all(requestIndices.map(async (index) => {
+    const connectedComponents = (await Promise.all(requestIndices.map(async (index) => {
         const { data } = (
-            ZEPLIN_PROJECT_ID
+            isProject
                 ? await zeplinApi.connectedComponents.getProjectConnectedComponents(
-                    ZEPLIN_PROJECT_ID,
+                    resourceId,
                     {
                         limit: 100,
                         offset: 100 * index,
                         includeLinkedStyleguides: true
                     }
                 ) : await zeplinApi.connectedComponents.getStyleguideConnectedComponents(
-                    ZEPLIN_STYLEGUIDE_ID,
+                    resourceId,
                     {
                         limit: 100,
                         offset: 100 * index,
@@ -60,6 +74,8 @@ async function cacheConnectedComponents() {
         );
         return data;
     }))).flat();
+    zeplinConnectedComponentsCache.set(resourceId, connectedComponents);
+    return connectedComponents;
 }
 
 function linkPropertiesToUrl(linkProperties: LinkProperties) {
@@ -86,13 +102,13 @@ export function login(token: string) {
 export function logout() {
     localStorage.removeItem(ZEPLIN_TOKEN_STORAGE_KEY);
     cachedUser = undefined;
-    zeplinCache.clear();
+    zeplinResourceCache.clear();
 }
 
 export async function getZeplinResource(
     zeplinLink: string
 ): Promise<ZeplinResource | { error: string }> {
-    const cachedValue = zeplinCache.get(zeplinLink);
+    const cachedValue = zeplinResourceCache.get(zeplinLink);
     if (cachedValue) {
         return cachedValue;
     }
@@ -112,7 +128,7 @@ export async function getZeplinResource(
                     linkProperties.pid,
                     linkProperties.coid
                 );
-                zeplinCache.set(zeplinLink, data);
+                zeplinResourceCache.set(zeplinLink, data);
                 return data;
             }
             case RESOURCE_TYPES.STYLEGUIDE_COMPONENT: {
@@ -120,7 +136,7 @@ export async function getZeplinResource(
                     linkProperties.stid,
                     linkProperties.coid
                 );
-                zeplinCache.set(zeplinLink, data);
+                zeplinResourceCache.set(zeplinLink, data);
                 return data;
             }
             case RESOURCE_TYPES.SCREEN: {
@@ -128,7 +144,7 @@ export async function getZeplinResource(
                     linkProperties.pid,
                     linkProperties.sid
                 );
-                zeplinCache.set(zeplinLink, data);
+                zeplinResourceCache.set(zeplinLink, data);
                 return data;
             }
             default:
@@ -158,45 +174,38 @@ export async function getUser(): Promise<User | { error: string }> {
     }
 }
 
-export async function getZeplinLinksFromConnectedComponents(storyId: string): Promise<string[] | { error: string }>{
-    if (!ZEPLIN_STYLEGUIDE_ID && !ZEPLIN_PROJECT_ID) {
-        return [];
-    }
+export async function getZeplinLinksFromConnectedComponents(
+    storyId: string,
+    params: ConnectedComponentParams
+): Promise<string[]>{
+    try {
+        const connectedComponents = (await getConnectedComponents(params)).filter(
+            ({links}) => links.find(({type, url}) => {
+                if(type !== 'storybook'){
+                    return false;
+                }
+                const path = new URL(url).searchParams.get("path");
+                const paths = path.split("/");
+                const storyIdFromUrl = paths[paths.length - 1];
+                return storyIdFromUrl === storyId;
+            })
+        );
 
-    if (!cachedConnectedComponents) {
-        try {
-            await cacheConnectedComponents();
-        } catch (e) {
-            return {
-                error: e.response?.data?.message || e.message,
+        return connectedComponents.map(({ components, source }) => {
+            if (source.project) {
+                return components.map(({ id }) => linkPropertiesToUrl({
+                    pid: source.project.id,
+                    coid: id,
+                    type: RESOURCE_TYPES.PROJECT_COMPONENT
+                }));
             }
-        }
-    }
-
-    const connectedComponents = cachedConnectedComponents.filter(
-        ({links}) => links.find(({type, url}) => {
-            if(type !== 'storybook'){
-                return false;
-            }
-            const path = new URL(url).searchParams.get("path");
-            const paths = path.split("/");
-            const storyIdFromUrl = paths[paths.length - 1];
-            return storyIdFromUrl === storyId;
-        })
-    );
-
-    return connectedComponents.map(({ components, source }) => {
-        if (source.project) {
             return components.map(({ id }) => linkPropertiesToUrl({
-                pid: source.project.id,
+                stid: source.styleguide.id,
                 coid: id,
-                type: RESOURCE_TYPES.PROJECT_COMPONENT
+                type: RESOURCE_TYPES.STYLEGUIDE_COMPONENT
             }));
-        }
-        return components.map(({ id }) => linkPropertiesToUrl({
-            stid: source.styleguide.id,
-            coid: id,
-            type: RESOURCE_TYPES.STYLEGUIDE_COMPONENT
-        }));
-    }).flat();
+        }).flat();
+    } catch (e) {
+        throw new Error(e.response?.data?.message || e.message || String(e));
+    }
 }
