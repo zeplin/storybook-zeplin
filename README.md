@@ -128,26 +128,30 @@ export const parameters = {
 };
 ```
 
-### 5. (Optional) Add Zeplin access token to your environment variables
+### 5. Set Zeplin access token
 
-To access your Zeplin resources publicly, you need to provide your access token.
+To access your Zeplin resources, you need to provide an access token with your Zeplin account permissions.
 You can create one from [Developer](https://app.zeplin.io/profile/developer) tab in your profile page.
 
-Addon prompts to get token when you open the addon's tab. If you want to skip login process,
-you can provide the token as an environment variable called `STORYBOOK_ZEPLIN_TOKEN`.
-You can create `.env` file in your project's root folder, or you can use your command line for it.
+The addon prompts to set the token when you open the addon's tab. This token is kept in the browser storage, so each user needs to create and set their own token to access Zeplin resources via Storybook.
+
+<img src="./token-screenshot.png" width="100%" alt="Setting Access Token"/>
+
+#### (Optional) Setting the access token using environment variable
+
+If you want to skip creating tokens for each user,
+you can provide the access token as an environment variable called `STORYBOOK_ZEPLIN_TOKEN`.
+You can create `.env` file in your project's root folder, or you can provide the environment variable as a command line parameter when building or dynamically running Storybook.
+
+#### ⚠️ Disclaimer
+
+**Please note that access token can be viewed by anyone with access to the Storybook instance if you set it using environment variable.
+For security reasons, never use the environment variable, if the Storybook instance can be accessed by 3rd parties.**
 
 ```shell
 # .env
 STORYBOOK_ZEPLIN_TOKEN="eyJhbGciOiJIUzI1N.."
 ```
-
-#### ⚠️ Disclaimer
-
-Please note that this token can be accessed from client side.
-For security reasons, please prefer setting the token as environment variable,
-if the storybook instance runs on localhost or internal network.
-
 
 ## Development
 
