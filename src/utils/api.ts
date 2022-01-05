@@ -126,7 +126,10 @@ export async function getZeplinResource(
             case RESOURCE_TYPES.PROJECT_COMPONENT: {
                 const { data } = await zeplinApi.components.getProjectComponent(
                     linkProperties.pid,
-                    linkProperties.coid
+                    linkProperties.coid,
+                    {
+                        includeLinkedStyleguides: true
+                    }
                 );
                 zeplinResourceCache.set(zeplinLink, data);
                 return data;
@@ -134,7 +137,10 @@ export async function getZeplinResource(
             case RESOURCE_TYPES.STYLEGUIDE_COMPONENT: {
                 const { data } = await zeplinApi.components.getStyleguideComponent(
                     linkProperties.stid,
-                    linkProperties.coid
+                    linkProperties.coid,
+                    {
+                        includeLinkedStyleguides: true
+                    }
                 );
                 zeplinResourceCache.set(zeplinLink, data);
                 return data;
