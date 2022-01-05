@@ -8,10 +8,10 @@ import { getZeplinLinksFromConnectedComponents } from "../../utils/api";
 const getProjectIdFromProjectLink = (link: string): string | null => {
     if (link.startsWith(`${ZEPLIN_APP_BASE}/project?`)) {
         const [, searchParams] = link.split("?");
-        const  result = /^pid=([\da-f]{24})$/.exec(searchParams);
+        const result = /^pid=([\da-f]{24})$/.exec(searchParams);
         return result?.[1];
     }
-    if (link.startsWith(`${ZEPLIN_WEB_BASE}/project`)){
+    if (link.startsWith(`${ZEPLIN_WEB_BASE}/project`)) {
         const result = /\/project\/([\da-f]{24})$/i.exec(link);
         return result?.[1];
     }
@@ -21,10 +21,10 @@ const getProjectIdFromProjectLink = (link: string): string | null => {
 const getStyleguideIdFromStyleguideLink = (link: string): string | null => {
     if (link.startsWith(`${ZEPLIN_APP_BASE}/styleguide?`)) {
         const [, searchParams] = link.split("?");
-        const  result = /^stid=([\da-f]{24})$/.exec(searchParams);
+        const result = /^stid=([\da-f]{24})$/.exec(searchParams);
         return result?.[1];
     }
-    if (link.startsWith(`${ZEPLIN_WEB_BASE}/styleguide`)){
+    if (link.startsWith(`${ZEPLIN_WEB_BASE}/styleguide`)) {
         const result = /\/styleguide\/([\da-f]{24})$/i.exec(link);
         return result?.[1];
     }
@@ -61,7 +61,7 @@ export const useLinks = (zeplinLink: ZeplinLink[] | string): State => {
                 setState({ links: [], error: null, loading: true });
                 getZeplinLinksFromConnectedComponents(
                     storyId,
-                    projectId ?{ projectId }: { styleguideId}
+                    projectId ? { projectId } : { styleguideId }
                 ).then(links => {
                     const mappedLinks = links.map((link, i) => ({
                         name: `Component ${i + 1}`,

@@ -36,7 +36,7 @@ const initialState: ZeplinState = {
     linksFromConnectedComponents: null
 };
 
-const toLinks = (link: ZeplinLink[] | string | undefined): ZeplinLink[] =>{
+const toLinks = (link: ZeplinLink[] | string | undefined): ZeplinLink[] => {
     if (!link) {
         return [];
     }
@@ -199,7 +199,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
             <Divider />
 
             <Header>
-                <OverlayPanel imageUrl={originalUrl}/>
+                <OverlayPanel imageUrl={originalUrl} />
             </Header>
 
             <Divider />

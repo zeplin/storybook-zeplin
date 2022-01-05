@@ -183,11 +183,11 @@ export async function getUser(): Promise<User | { error: string }> {
 export async function getZeplinLinksFromConnectedComponents(
     storyId: string,
     params: ConnectedComponentParams
-): Promise<string[]>{
+): Promise<string[]> {
     try {
         const connectedComponents = (await getConnectedComponents(params)).filter(
-            ({links}) => links.find(({type, url}) => {
-                if(type !== 'storybook'){
+            ({ links }) => links.find(({ type, url }) => {
+                if (type !== 'storybook') {
                     return false;
                 }
                 const path = new URL(url).searchParams.get("path");
