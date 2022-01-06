@@ -9,6 +9,7 @@ import { relativeDate } from "../utils/date";
 import OverlayPanel from "./OverlayPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
 import { Component, User, Screen } from "@zeplin/sdk";
+import { useLinks } from "./hooks";
 
 interface ZeplinPanelProps {
     zeplinLink: ZeplinLink[] | string;
@@ -22,6 +23,7 @@ interface ZeplinState {
     zoomLevel: number;
     loading: boolean;
     error: string | null;
+    linksFromConnectedComponents: string[] | null;
 }
 
 const initialState: ZeplinState = {
@@ -31,7 +33,18 @@ const initialState: ZeplinState = {
     zoomLevel: 1,
     loading: true,
     error: null,
+    linksFromConnectedComponents: null
 };
+
+const toLinks = (link: ZeplinLink[] | string | undefined): ZeplinLink[] => {
+    if (!link) {
+        return [];
+    }
+    if (typeof link === "string") {
+        return [{ link, name: "Component" }];
+    }
+    return link;
+}
 
 const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     const [state, setState] = useReducer(
@@ -39,13 +52,22 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
             ...state,
             ...newState,
         }),
-        initialState
+        initialState,
+        undefined
     );
 
+    const { links, loading: linksLoading, error: LinksError } = useLinks(zeplinLink);
+
     const { selectedLink, zeplinData, zoomLevel, loading, error, user } = state;
-    const designLink = (Array.isArray(zeplinLink) ? selectedLink || zeplinLink[0]?.link : zeplinLink);
+
+    const designLink = selectedLink || links[0]?.link;
 
     const fetchZeplinResource = async () => {
+        // If the connected components are not loaded yet, we need to load them first
+        if (linksLoading && !designLink) {
+            return;
+        }
+
         if (!designLink) {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
             setState({
@@ -76,7 +98,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     useEffect(() => {
         fetchZeplinResource();
-    }, [zeplinLink, selectedLink]);
+    }, [designLink, linksLoading]);
 
     useEffect(() => {
         fetchUser();
@@ -98,23 +120,15 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         setState({ zoomLevel: 1 });
     };
 
-    if (!zeplinLink || zeplinLink.length <= 0) {
-        return (
-            <Message>
-                <strong>zeplinLink</strong> is not provided for this story.
-            </Message>
-        );
-    }
-
-    if (loading) {
+    if (loading || linksLoading) {
         return <Message>Loading…</Message>;
     }
 
-    if (error) {
+    if (error || LinksError) {
         return (
             <Rows>
                 <p>
-                    {error}
+                    {error || LinksError}
                 </p>
                 <p>
                     {user?.username && <>
@@ -129,6 +143,14 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
                     {" first."}
                 </p>
             </Rows>
+        );
+    }
+
+    if (!designLink) {
+        return (
+            <Message>
+                <strong>zeplinLink</strong> is not provided for this story.
+            </Message>
         );
     }
 
@@ -147,10 +169,9 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         updated,
     } = zeplinData;
 
-
-    const LinksSection = Array.isArray(zeplinLink) && (
+    const LinksSection = links.length > 1 && (
         <Select onChange={selectZeplinLink} value={designLink}>
-            {zeplinLink.map(
+            {links.map(
                 ({ name, link }) => (
                     <option key={name} value={link}>
                         {name}
@@ -178,7 +199,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
             <Divider />
 
             <Header>
-                <OverlayPanel imageUrl={originalUrl}/>
+                <OverlayPanel imageUrl={originalUrl} />
             </Header>
 
             <Divider />
@@ -255,7 +276,7 @@ const Rows = styled.div`
     p {
         margin: 0;
     }
-    p:first-child {
+    p:first-of-type {
         color: red;
     }
 `;
