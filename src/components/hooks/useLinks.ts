@@ -6,7 +6,7 @@ import { useStorybookState } from "@storybook/api";
 import { getZeplinLinksFromConnectedComponents } from "../../utils/api";
 
 const getProjectIdFromProjectLink = (link: string): string | null => {
-    if (link.startsWith(`${ZEPLIN_APP_BASE}/project?`)) {
+    if (link.startsWith(`${ZEPLIN_APP_BASE}//project?`)) {
         const [, searchParams] = link.split("?");
         const result = /^pid=([\da-f]{24})$/.exec(searchParams);
         return result?.[1];
@@ -19,7 +19,7 @@ const getProjectIdFromProjectLink = (link: string): string | null => {
 }
 
 const getStyleguideIdFromStyleguideLink = (link: string): string | null => {
-    if (link.startsWith(`${ZEPLIN_APP_BASE}/styleguide?`)) {
+    if (link.startsWith(`${ZEPLIN_APP_BASE}//styleguide?`)) {
         const [, searchParams] = link.split("?");
         const result = /^stid=([\da-f]{24})$/.exec(searchParams);
         return result?.[1];

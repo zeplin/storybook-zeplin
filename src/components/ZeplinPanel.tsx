@@ -36,16 +36,6 @@ const initialState: ZeplinState = {
     linksFromConnectedComponents: null
 };
 
-const toLinks = (link: ZeplinLink[] | string | undefined): ZeplinLink[] => {
-    if (!link) {
-        return [];
-    }
-    if (typeof link === "string") {
-        return [{ link, name: "Component" }];
-    }
-    return link;
-}
-
 const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
     const [state, setState] = useReducer(
         (state: ZeplinState, newState: Partial<ZeplinState>) => ({
@@ -64,16 +54,12 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     const fetchZeplinResource = async () => {
         // If the connected components are not loaded yet, we need to load them first
-        if (linksLoading && !designLink) {
+        if (linksLoading) {
             return;
         }
 
         if (!designLink) {
-            const formattedValue = JSON.stringify(zeplinLink, null, 2);
-            setState({
-                loading: false,
-                error: `Zeplin links are either missing or malformed. Received ${formattedValue}`,
-            });
+            setState({ loading: false });
             return;
         }
 
@@ -124,6 +110,22 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         return <Message>Loading…</Message>;
     }
 
+
+    if (!designLink && !LinksError) {
+        if (zeplinLink) {
+            return (
+                <Message>
+                    There is no connected component for this story.
+                </Message>
+            );
+        }
+        return (
+            <Message>
+                <strong>zeplinLink</strong> is not provided for this story.
+            </Message>
+        );
+    }
+
     if (error || LinksError) {
         return (
             <Rows>
@@ -143,14 +145,6 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
                     {" first."}
                 </p>
             </Rows>
-        );
-    }
-
-    if (!designLink) {
-        return (
-            <Message>
-                <strong>zeplinLink</strong> is not provided for this story.
-            </Message>
         );
     }
 
