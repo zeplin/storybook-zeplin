@@ -62,7 +62,7 @@ export const useLinks = (zeplinLink: unknown): State => {
         } else if(Array.isArray(zeplinLink) || typeof zeplinLink !== "string") {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
             setState({ links: [], error: `Zeplin link is malformed. Received: ${formattedValue}`, loading: false });
-        }else {
+        } else {
             const projectId = getProjectIdFromProjectLink(zeplinLink);
             const styleguideId = getStyleguideIdFromStyleguideLink(zeplinLink);
             if (projectId || styleguideId) {
