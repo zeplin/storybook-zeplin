@@ -6,7 +6,7 @@ import { useStorybookState } from "@storybook/api";
 import { getZeplinLinksFromConnectedComponents } from "../../utils/api";
 
 const getProjectIdFromProjectLink = (link: string): string | null => {
-    if (link.startsWith(`${ZEPLIN_APP_BASE}/project?`)) {
+    if (link.startsWith(`${ZEPLIN_APP_BASE}//project?`)) {
         const [, searchParams] = link.split("?");
         const result = /^pid=([\da-f]{24})$/.exec(searchParams);
         return result?.[1];
@@ -19,7 +19,7 @@ const getProjectIdFromProjectLink = (link: string): string | null => {
 }
 
 const getStyleguideIdFromStyleguideLink = (link: string): string | null => {
-    if (link.startsWith(`${ZEPLIN_APP_BASE}/styleguide?`)) {
+    if (link.startsWith(`${ZEPLIN_APP_BASE}//styleguide?`)) {
         const [, searchParams] = link.split("?");
         const result = /^stid=([\da-f]{24})$/.exec(searchParams);
         return result?.[1];
@@ -37,7 +37,12 @@ interface State {
     loading: boolean;
 }
 
-export const useLinks = (zeplinLink: ZeplinLink[] | string): State => {
+const isZeplinLinkValid = (link: unknown): link is ZeplinLink => {
+    return typeof (link as any)?.name === "string" && typeof (link as any)?.link === "string"
+
+}
+
+export const useLinks = (zeplinLink: unknown): State => {
     const [state, setState] = useReducer(
         (state: State, newState: State) => ({ ...state, ...newState }),
         {
@@ -52,8 +57,11 @@ export const useLinks = (zeplinLink: ZeplinLink[] | string): State => {
     useEffect(() => {
         if (!zeplinLink) {
             setState({ links: [], error: null, loading: false });
-        } else if (Array.isArray(zeplinLink)) {
+        } else if (Array.isArray(zeplinLink) && zeplinLink.every(isZeplinLinkValid)) {
             setState({ links: zeplinLink, error: null, loading: false });
+        } else if(Array.isArray(zeplinLink) || typeof zeplinLink !== "string") {
+            const formattedValue = JSON.stringify(zeplinLink, null, 2);
+            setState({ links: [], error: `Zeplin link is malformed. Received: ${formattedValue}`, loading: false });
         } else {
             const projectId = getProjectIdFromProjectLink(zeplinLink);
             const styleguideId = getStyleguideIdFromStyleguideLink(zeplinLink);

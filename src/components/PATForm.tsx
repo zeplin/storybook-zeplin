@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { Button, Form, Link } from "@storybook/components";
+import { Button, Form, Icons, Link } from "@storybook/components";
 import { styled } from "@storybook/theming";
 
 interface PATFormProps {
@@ -25,7 +25,7 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                 </Button>
             </StyledForm>
             <div>
-                You can create personal access token from the web app under
+                You can create personal access token using
                 {" "}
                 <Link
                     cancel={false}
@@ -35,8 +35,12 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                     Developer
                 </Link>
                 {" "}
-                tab in your profile page.
+                page in your Zeplin profile.
             </div>
+            <FillerRow />
+            <small>
+                <i>* The token will be stored in your browser's local storage. You can later remove it using the log out button</i>
+            </small>
         </Rows>
     );
 }
@@ -46,6 +50,7 @@ const Rows = styled.div`
     display: flex;
     flex-direction: column;
     gap: 22px;
+    height: 100%;
 `;
 
 const StyledForm = styled(Form)`
@@ -57,3 +62,8 @@ const StyledForm = styled(Form)`
 const StyledInput = styled(Form.Input)`
     flex: 1;
 `;
+
+const FillerRow = styled.div`
+    flex: 1;
+`;
+
