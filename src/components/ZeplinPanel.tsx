@@ -50,7 +50,12 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
 
     const { selectedLink, zeplinData, zoomLevel, loading, error, user } = state;
 
-    const designLink = selectedLink || links[0]?.link;
+    let shouldUseMultiLink = false;
+    if (selectedLink) {
+        shouldUseMultiLink = !!links.find(({ link }) => link === selectedLink)
+    }
+
+    const designLink = shouldUseMultiLink ? selectedLink : links[0]?.link;
 
     const fetchZeplinResource = async () => {
         // If the connected components are not loaded yet, we need to load them first
