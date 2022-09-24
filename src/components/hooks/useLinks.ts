@@ -34,7 +34,7 @@ const getStyleguideIdFromStyleguideLink = (link: string): string | null => {
 interface State {
     links: ZeplinLink[];
     error: string | null;
-    loading: boolean;
+    linksLoading: boolean;
 }
 
 const isZeplinLinkValid = (link: unknown): link is ZeplinLink => {
@@ -48,7 +48,7 @@ export const useLinks = (zeplinLink: unknown): State => {
         {
             links: [],
             error: null,
-            loading: true,
+            linksLoading: false,
         },
         undefined
     );
@@ -56,17 +56,17 @@ export const useLinks = (zeplinLink: unknown): State => {
 
     useEffect(() => {
         if (!zeplinLink) {
-            setState({ links: [], error: null, loading: false });
+            setState({ links: [], error: null, linksLoading: false });
         } else if (Array.isArray(zeplinLink) && zeplinLink.every(isZeplinLinkValid)) {
-            setState({ links: zeplinLink, error: null, loading: false });
+            setState({ links: zeplinLink, error: null, linksLoading: false });
         } else if(Array.isArray(zeplinLink) || typeof zeplinLink !== "string") {
             const formattedValue = JSON.stringify(zeplinLink, null, 2);
-            setState({ links: [], error: `Zeplin link is malformed. Received: ${formattedValue}`, loading: false });
+            setState({ links: [], error: `Zeplin link is malformed. Received: ${formattedValue}`, linksLoading: false });
         } else {
             const projectId = getProjectIdFromProjectLink(zeplinLink);
             const styleguideId = getStyleguideIdFromStyleguideLink(zeplinLink);
             if (projectId || styleguideId) {
-                setState({ links: [], error: null, loading: true });
+                setState({ links: [], error: null, linksLoading: true });
                 getZeplinLinksFromConnectedComponents(
                     storyId,
                     projectId ? { projectId } : { styleguideId }
@@ -76,12 +76,12 @@ export const useLinks = (zeplinLink: unknown): State => {
                         link
                     }));
 
-                    setState({ links: mappedLinks, error: null, loading: false });
+                    setState({ links: mappedLinks, error: null, linksLoading: false });
                 }).catch(error => {
-                    setState({ links: [], error: error?.message ?? String(error), loading: false });
+                    setState({ links: [], error: error?.message ?? String(error), linksLoading: false });
                 });
             } else {
-                setState({ links: [{ link: zeplinLink, name: "Component" }], error: null, loading: false });
+                setState({ links: [{ link: zeplinLink, name: "Component" }], error: null, linksLoading: false });
             }
         }
     }, [zeplinLink]);
