@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 import { ZeplinLink } from "../../types/ZeplinLink";
 import { ZEPLIN_APP_BASE, ZEPLIN_WEB_BASE } from "../../constants";
