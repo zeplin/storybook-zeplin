@@ -84,6 +84,6 @@ export const useLinks = (zeplinLink: unknown): State => {
                 setState({ links: [{ link: zeplinLink, name: "Component" }], error: null, linksLoading: false });
             }
         }
-    }, [zeplinLink]);
+    }, [storyId]);
     return state;
 }
