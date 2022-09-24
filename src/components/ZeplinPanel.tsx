@@ -46,7 +46,7 @@ const ZeplinPanel: React.FC<ZeplinPanelProps> = ({ zeplinLink, onLogout }) => {
         undefined
     );
 
-    const { links, loading: linksLoading, error: LinksError } = useLinks(zeplinLink);
+    const { links, linksLoading, error: LinksError } = useLinks(zeplinLink);
 
     const { selectedLink, zeplinData, zoomLevel, loading, error, user } = state;
 
