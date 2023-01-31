@@ -57,7 +57,8 @@ If you're using Storybook@5.0.x;
 import "storybook-zeplin/register";
 ```
 
-### 3. Add a Zeplin link to your story
+### 3. Add a Zeplin link to your story (Optional)
+> Skip this step if you don't want to set up all components one by one.
 
 Storybook Zeplin takes parameter `zeplinLink` as an array of elements containing a name and a link or just a string for the link.
 For the link, you can use full web URL or app URI of Zeplin components/screens.
@@ -117,15 +118,26 @@ Default.story = {
 };
 ```
 
-### 4. (Optional) Add Zeplin project or styleguide link to your global parameters
+### 4. Add Zeplin project or styleguide link to your global story parameters
+> You may skip this step if you set Zeplin links using the method on Step 3 
 
-The addon shows connected components when a project or styleguide link is provided as `zeplinLink`.
-If you are using Zeplin's connected component feature, you can provide the link globally as in the example below.
+Add `zeplinLink` to `.storybook/preview.js` file. This value is a link to the project or styleguide that contains correspondent designs in Zeplin as shown below examples.
 
+When this parameter is provided, you will automatically view Zeplin components linked to your stories using the Storybook integration on the addon panel. Check out the following links for to learn more about [how to initialize Storybook integration](https://support.zeplin.io/en/articles/5674596-connecting-your-storybook-instance-with-zeplin) and [how to link components to stories](https://support.zeplin.io/en/articles/5679812-linking-your-components-in-zeplin-with-stories-in-storybook).
+
+Using a Zeplin web link
 ```js
 //.storybook/preview.js
 export const parameters = {
     zeplinLink: "https://app.zeplin.io/project/5e7a6d478204d59183a1c76b",
+};
+```
+
+Using a Zeplin app link
+```js
+//.storybook/preview.js
+export const parameters = {
+    zeplinLink: "zpl://project?pid=61f164b064e363a52fbb295f",
 };
 ```
 
