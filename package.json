@@ -46,11 +46,10 @@
         "semver": "^7.3.5"
     },
     "devDependencies": {
-        "@storybook/addons": "^6.3.0",
-        "@storybook/api": "^6.3.0",
-        "@storybook/components": "^6.3.0",
-        "@storybook/react": "^6.3.0",
-        "@storybook/theming": "^6.3.0",
+        "@storybook/addons": "^6.5.16",
+        "@storybook/api": "^6.5.16",
+        "@storybook/components": "^6.5.16",
+        "@storybook/theming": "^6.5.16",
         "@types/react": "^16.9.34",
         "@types/semver": "^7.3.8",
         "babel-loader": "^8.1.0",
