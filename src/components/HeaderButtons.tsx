@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
-import { Icons, IconButton, TooltipMessage, WithTooltip, Link } from "@storybook/components";
+import { IconButton, TooltipMessage, WithTooltip } from "@storybook/components";
+import { UserIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon } from "@storybook/icons";
 import { styled } from "@storybook/theming";
 
 interface HeaderButtonsProps {
@@ -38,21 +39,21 @@ export default function HeaderButtons({
                 onClick={onZoomIn}
                 title="Zoom in"
             >
-                <Icons icon="zoom" />
+                <ZoomIcon/>
             </IconButton>
             <IconButton
                 className="iconButton"
                 onClick={onZoomOut}
                 title="Zoom out"
             >
-                <Icons icon="zoomout" />
+                <ZoomOutIcon/>
             </IconButton>
             <IconButton
                 className="iconButton"
                 onClick={onZoomReset}
                 title="Reset zoom"
             >
-                <Icons icon="zoomreset" />
+                <ZoomResetIcon/>
             </IconButton>
             <WithTooltip
                 placement="bottom"
@@ -63,7 +64,7 @@ export default function HeaderButtons({
                     className="iconButton"
                     title="Profile"
                 >
-                    <Icons icon="user" />
+                    <UserIcon/>
                 </IconButton>
             </WithTooltip>
         </Container>

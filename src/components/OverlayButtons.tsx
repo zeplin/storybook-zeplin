@@ -1,5 +1,6 @@
 import React from "react";
-import { Icons, IconButton } from "@storybook/components";
+import { IconButton } from "@storybook/components";
+import { EyeCloseIcon, EyeIcon, LockIcon, MirrorIcon, UnlockIcon } from "@storybook/icons";
 import { styled } from "@storybook/theming";
 
 interface OverlayButtonsProps {
@@ -30,7 +31,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
                 title={overlayIsLocked ? "Unlock overlay" : "Lock overlay"}
                 onClick={onToggleLock}
             >
-                <Icons icon={overlayIsLocked ? "lock" : "unlock"} />
+                {overlayIsLocked ? <LockIcon/> : <UnlockIcon/>}
             </ToggleIconButton>
             <ToggleIconButton
                 active={showDifference}
@@ -38,7 +39,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
                 title="Show difference"
                 onClick={onToggleDifference}
             >
-                <Icons icon="mirror" />
+                <MirrorIcon/>
             </ToggleIconButton>
         </>
     );
@@ -51,7 +52,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
                 title={overlayIsOpen ? "Hide overlay" : "Show overlay"}
                 onClick={onToggleOverlay}
             >
-                <Icons icon={overlayIsOpen ? "eyeclose" : "eye"} />
+                {overlayIsOpen ? <EyeCloseIcon/> : <EyeIcon/>}
             </ToggleIconButton>
             {additionalOptions}
         </Container>

@@ -1,8 +1,7 @@
 import React from "react";
 import lt from "semver/functions/lt";
-import { addons, types } from "@storybook/addons";
+import { addons, types, useParameter } from "@storybook/manager-api";
 import { AddonPanel } from "@storybook/components";
-import { useParameter } from "@storybook/api";
 import { getStoryDetail, getStories, getGlobalContext } from "@zeplin/storybook-inspector";
 
 import {

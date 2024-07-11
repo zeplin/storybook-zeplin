@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 
 import { ZeplinLink } from "../../types/ZeplinLink";
 import { ZEPLIN_APP_BASE, ZEPLIN_WEB_BASE } from "../../constants";
-import { useStorybookState } from "@storybook/api";
+import { useStorybookState } from "@storybook/manager-api";
 import { getZeplinLinksFromConnectedComponents } from "../../utils/api";
 
 const getProjectIdFromProjectLink = (link: string): string | null => {

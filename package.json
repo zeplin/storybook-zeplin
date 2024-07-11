@@ -1,64 +1,62 @@
 {
-    "name": "storybook-zeplin",
-    "version": "2.0.3",
-    "description": "Zeplin addon for Storybook",
-    "main": "dist/index.js",
-    "keywords": [
-        "storybook",
-        "zeplin",
-        "addon",
-        "storybook-addon",
-        "design",
-        "popular"
-    ],
-    "scripts": {
-        "prepare": "npm run build",
-        "build": "tsc",
-        "watch": "tsc --watch --preserveWatchOutput",
-        "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook --no-manager-cache",
-        "build-storybook": "NODE_ENV=production build-storybook"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/mertkahyaoglu/storybook-zeplin.git"
-    },
-    "author": {
-        "name": "Mert Kahyaoğlu",
-        "url": "https://mert-kahyaoglu.com"
-    },
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/mertkahyaoglu/storybook-zeplin/issues"
-    },
-    "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
-    "peerDependencies": {
-        "@storybook/addons": ">=5.0.0",
-        "@storybook/api": ">=5.0.0",
-        "@storybook/components": ">=5.0.0",
-        "@storybook/theming": ">=5.0.0",
-        "react": ">=16.8.0",
-        "react-dom": ">=16.8.0"
-    },
-    "dependencies": {
-        "@zeplin/sdk": "^1.9.0",
-        "@zeplin/storybook-inspector": "^0.2.4",
-        "query-string": "^6.12.1",
-        "semver": "^7.3.5"
-    },
-    "devDependencies": {
-        "@storybook/addons": "^6.5.16",
-        "@storybook/api": "^6.5.16",
-        "@storybook/components": "^6.5.16",
-        "@storybook/theming": "^6.5.16",
-        "@types/react": "^16.9.34",
-        "@types/semver": "^7.3.8",
-        "babel-loader": "^8.1.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "typescript": "^4.4.3"
-    },
-    "storybook": {
-        "icon": "https://cdn.zeplin.io/assets/lp/img/icZeplin.svg",
-        "displayName": "Zeplin"
-    }
+  "name": "storybook-zeplin",
+  "version": "2.0.3",
+  "description": "Zeplin addon for Storybook",
+  "main": "dist/index.js",
+  "keywords": [
+    "storybook",
+    "zeplin",
+    "addon",
+    "storybook-addon",
+    "design",
+    "popular"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput",
+    "storybook": "NODE_ENV=development storybook dev -p 9001 -c .storybook",
+    "build-storybook": "NODE_ENV=production storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mertkahyaoglu/storybook-zeplin.git"
+  },
+  "author": {
+    "name": "Mert Kahyaoğlu",
+    "url": "https://mert-kahyaoglu.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mertkahyaoglu/storybook-zeplin/issues"
+  },
+  "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
+  "dependencies": {
+    "@zeplin/sdk": "^1.9.0",
+    "@zeplin/storybook-inspector": "^0.2.4",
+    "query-string": "^6.12.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "semver": "^7.3.5"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@storybook/addon-webpack5-compiler-babel": "^3.0.3",
+    "@storybook/components": "^8.2.1",
+    "@storybook/icons": "^1.2.9",
+    "@storybook/manager-api": "^8.2.1",
+    "@storybook/preview-api": "^8.2.1",
+    "@storybook/react": "^8.2.1",
+    "@storybook/react-webpack5": "^8.2.1",
+    "@storybook/theming": "^8.2.1",
+    "@types/react": "^18.3.3",
+    "@types/semver": "^7.3.8",
+    "babel-loader": "^8.1.0",
+    "typescript": "^5.5.3"
+  },
+  "storybook": {
+    "icon": "https://cdn.zeplin.io/assets/lp/img/icZeplin.svg",
+    "displayName": "Zeplin"
+  }
 }
