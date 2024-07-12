@@ -28,17 +28,23 @@
 
 ## Requirements
 
--   Storybook@>=5.0.0
-
-This addon should work with any framework. If you find a case that the addon does not work, please open an issue.
+Storybook Zeplin addon v3 is compatible with Storybook 8 and Node Version >18. 
+For Storybook versions 5-7, please use Storybook Zeplin addon v2.0.3
 
 ## Getting started
 
 ### 1. Install
 
+For using Storybook 8:
 ```sh
 npm install --save-dev storybook-zeplin
 # yarn add -D storybook-zeplin
+```
+
+For using Storybook version 5-7:
+```sh
+npm install --save-dev storybook-zeplin@2.0.3
+# yarn add -D storybook-zeplin@2.0.3
 ```
 
 ### 2. Register the addon in `main.js`
@@ -50,7 +56,7 @@ module.exports = {
 };
 ```
 
-If you're using Storybook@5.0.x;
+If you're using Storybook@5.0.x:
 
 ```js
 // .storybook/addons.js
