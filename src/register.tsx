@@ -16,11 +16,11 @@ import { messenger } from "./utils/messenger";
 import { MainPanel } from "./components/MainPanel";
 
 addons.register(ADDON_ID, async api => {
-    const render = ({ active, key }) => {
+    const render = ({ active }) => {
         const zeplinLink = useParameter(PARAM_KEY, null);
 
         return (
-            <AddonPanel active={active} key={key}>
+            <AddonPanel active={active}>
                 <MainPanel zeplinLink={zeplinLink} />
             </AddonPanel>
         );
