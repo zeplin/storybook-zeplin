@@ -33,7 +33,7 @@
   "homepage": "https://github.com/mertkahyaoglu/storybook-zeplin#readme",
   "dependencies": {
     "@zeplin/sdk": "^1.9.0",
-    "@zeplin/storybook-inspector": "^0.2.4",
+    "@zeplin/storybook-inspector": "^0.3.0",
     "query-string": "^6.12.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
