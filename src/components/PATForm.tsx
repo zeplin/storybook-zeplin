@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { Button, Form, Icons, Link } from "@storybook/components";
+import { Button, Form, Link } from "@storybook/components";
 import { styled } from "@storybook/theming";
 
 interface PATFormProps {

@@ -9,5 +9,12 @@ if(!IS_PRODUCTION) {
 
 module.exports = {
     stories,
-    addons: ["../dist/register"],
+    addons: ["../dist/register", "@storybook/addon-webpack5-compiler-babel"],
+    framework: "@storybook/react-webpack5",
+    babel: async (options) => {
+        return {
+            ...options,
+            presets: ['@babel/preset-react', '@babel/preset-typescript'],
+        };
+    },
 };

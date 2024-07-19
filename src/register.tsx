@@ -1,8 +1,7 @@
 import React from "react";
 import lt from "semver/functions/lt";
-import { addons, types } from "@storybook/addons";
+import { addons, types, useParameter } from "@storybook/manager-api";
 import { AddonPanel } from "@storybook/components";
-import { useParameter } from "@storybook/api";
 import { getStoryDetail, getStories, getGlobalContext } from "@zeplin/storybook-inspector";
 
 import {
@@ -17,11 +16,11 @@ import { messenger } from "./utils/messenger";
 import { MainPanel } from "./components/MainPanel";
 
 addons.register(ADDON_ID, async api => {
-    const render = ({ active, key }) => {
+    const render = ({ active }) => {
         const zeplinLink = useParameter(PARAM_KEY, null);
 
         return (
-            <AddonPanel active={active} key={key}>
+            <AddonPanel active={active}>
                 <MainPanel zeplinLink={zeplinLink} />
             </AddonPanel>
         );
