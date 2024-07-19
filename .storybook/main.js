@@ -13,8 +13,8 @@ module.exports = {
     framework: "@storybook/react-webpack5",
     babel: async (options) => {
         return {
-          ...options,
-          presets: ['@babel/preset-react', '@babel/preset-typescript'],
+            ...options,
+            presets: ['@babel/preset-react', '@babel/preset-typescript'],
         };
-      },
+    },
 };
