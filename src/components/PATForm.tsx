@@ -20,7 +20,7 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                     placeholder="Personal access token"
                     onChange={({ target }) => setToken((target as any)?.value)}
                 />
-                <Button type="submit" primary small>
+                <Button type="submit" variant="solid">
                     Save
                 </Button>
             </StyledForm>
