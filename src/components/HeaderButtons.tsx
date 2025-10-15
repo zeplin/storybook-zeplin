@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { IconButton, TooltipMessage, WithTooltip } from "@storybook/components";
+import { IconButton, TooltipMessage, WithTooltip } from "storybook/internal/components";
 import { UserIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon } from "@storybook/icons";
-import { styled } from "@storybook/theming";
+import { styled } from "storybook/theming";
 
 interface HeaderButtonsProps {
     username?: string;

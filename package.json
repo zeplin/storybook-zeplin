@@ -12,7 +12,6 @@
     "popular"
   ],
   "scripts": {
-    "prepare": "npm run build",
     "build": "tsc",
     "watch": "tsc --watch --preserveWatchOutput",
     "storybook": "NODE_ENV=development storybook dev -p 9001 -c .storybook",
@@ -44,11 +43,8 @@
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@storybook/addon-webpack5-compiler-babel": "^3.0.3",
-    "@storybook/components": "9.0.0-alpha.1",
     "@storybook/icons": "^1.6.0",
-    "@storybook/manager-api": "9.0.0-alpha.1",
     "@storybook/react-webpack5": "9.1.10",
-    "@storybook/theming": "9.0.0-alpha.1",
     "@types/node": "^20.0.0",
     "@types/react": "^18.3.3",
     "@types/semver": "^7.3.8",

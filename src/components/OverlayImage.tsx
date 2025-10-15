@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react"
-import { useParameter } from "@storybook/manager-api";
-import { styled } from "@storybook/theming";
+import { useParameter } from "storybook/manager-api";
+import { styled } from "storybook/theming";
 
 const movementReducer = (state, offset) => {
     return {

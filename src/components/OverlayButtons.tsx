@@ -1,7 +1,7 @@
 import React from "react";
-import { IconButton } from "@storybook/components";
+import { IconButton } from "storybook/internal/components";
 import { EyeCloseIcon, EyeIcon, LockIcon, MirrorIcon, UnlockIcon } from "@storybook/icons";
-import { styled } from "@storybook/theming";
+import { styled } from "storybook/theming";
 
 interface OverlayButtonsProps {
     overlayIsOpen: boolean;

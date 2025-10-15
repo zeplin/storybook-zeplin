@@ -1,5 +1,5 @@
 import React, { useCallback, useReducer } from "react";
-import { styled } from "@storybook/theming";
+import { styled } from "storybook/theming";
 
 import OverlayPortal from "./OverlayPortal";
 import OverlayButtons from "./OverlayButtons";

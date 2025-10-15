@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useReducer } from "react";
-import { Form, Link } from "@storybook/components";
-import { styled } from "@storybook/theming";
+import { Form, Link } from "storybook/internal/components";
+import { styled } from "storybook/theming";
 
 import HeaderButtons from "./HeaderButtons";
 
