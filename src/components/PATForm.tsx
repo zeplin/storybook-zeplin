@@ -25,7 +25,7 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                 </Button>
             </StyledForm>
             <div>
-                You can create personal access token using{" "}
+                Create a personal access token on the{" "}
                 <Link
                     cancel={false}
                     href={"https://app.zeplin.io/profile/developer"}
@@ -34,13 +34,13 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                 >
                     Developer
                 </Link>{" "}
-                page in your Zeplin profile.
+                page of your Zeplin profile.
             </div>
             <FillerRow />
             <small>
                 <i>
-                    * The token will be stored in your browser's local storage.
-                    You can later remove it using the log out button
+                    Your token is stored in your browser's local storage. Log
+                    out to remove it.
                 </i>
             </small>
         </Rows>

@@ -230,6 +230,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
+    height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;

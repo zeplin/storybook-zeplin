@@ -146,6 +146,12 @@ export async function getZeplinResource(
                 return data;
             }
             default:
+                if (zeplinLink.startsWith("https://zpl.io/")) {
+                    return {
+                        error: "zpl.io short links aren't supported yet, please paste the full Zeplin link.",
+                    };
+                }
+
                 return { error: "Zeplin link is invalid." };
         }
     } catch (error) {

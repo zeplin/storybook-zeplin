@@ -1,4 +1,5 @@
 import { useCallback, useReducer, ChangeEvent } from "react";
+import { Form } from "storybook/internal/components";
 import { styled } from "storybook/theming";
 
 import OverlayPortal from "./OverlayPortal";
@@ -22,7 +23,7 @@ const initialState: OverlayState = {
     lockOverlay: false,
     showDifference: false,
     overlayScaling: 0.5,
-    opacity: 1,
+    opacity: 0.75,
 };
 
 const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
@@ -86,11 +87,13 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
                         value={opacity}
                         onChange={updateOpacity}
                     />
-                    Scaling
+                    Scale
                     <Select onChange={selectScaling} value={overlayScaling}>
-                        <option value={0.5}>x0.5</option>
-                        <option value={1}>x1</option>
-                        <option value={2}>x2</option>
+                        <option value={0.25}>0.5×</option>
+                        <option value={0.5}>1×</option>
+                        <option value={1}>2×</option>
+                        <option value={1.5}>3×</option>
+                        <option value={2}>4×</option>
                     </Select>
                 </OverlayOptions>
             )}
@@ -111,7 +114,7 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
 
 export default OverlayPanel;
 
-const Select = styled.select`
+const Select = styled(Form.Select)`
     margin-left: 15px;
 `;
 

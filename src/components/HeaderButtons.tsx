@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import {
-    IconButton,
+    Button,
     TooltipMessage,
     WithTooltip,
 } from "storybook/internal/components";
@@ -46,27 +46,15 @@ export default function HeaderButtons({
 }: HeaderButtonsProps) {
     return (
         <Container>
-            <IconButton
-                className="iconButton"
-                onClick={onZoomIn}
-                title="Zoom in"
-            >
+            <Button onClick={onZoomIn} ariaLabel="Zoom in">
                 <ZoomIcon />
-            </IconButton>
-            <IconButton
-                className="iconButton"
-                onClick={onZoomOut}
-                title="Zoom out"
-            >
+            </Button>
+            <Button onClick={onZoomOut} ariaLabel="Zoom out">
                 <ZoomOutIcon />
-            </IconButton>
-            <IconButton
-                className="iconButton"
-                onClick={onZoomReset}
-                title="Reset zoom"
-            >
+            </Button>
+            <Button onClick={onZoomReset} ariaLabel="Reset zoom">
                 <ZoomResetIcon />
-            </IconButton>
+            </Button>
             <WithTooltip
                 placement="bottom"
                 trigger="click"
@@ -74,9 +62,9 @@ export default function HeaderButtons({
                     <ProfileTooltip username={username} onLogout={onLogout} />
                 }
             >
-                <IconButton className="iconButton" title="Profile">
+                <Button ariaLabel="Profile">
                     <UserIcon />
-                </IconButton>
+                </Button>
             </WithTooltip>
         </Container>
     );
@@ -88,10 +76,8 @@ const TooltipTitle = styled.div`
 
 const Container = styled.div`
     display: flex;
-    button {
-        margin-left: 15px;
-        color: #999;
-    }
+    gap: 6px;
+    margin-left: 15px;
 `;
 
 const TooltipWrapper = styled.div`

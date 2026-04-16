@@ -1,4 +1,5 @@
 import { FunctionComponent, useState } from "react";
+import { styled } from "storybook/theming";
 
 import ZeplinPanel from "./ZeplinPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
@@ -13,23 +14,31 @@ export const MainPanel: FunctionComponent<MainPanelProps> = ({
     zeplinLink,
 }) => {
     const [loggedIn, setLoggedIn] = useState<boolean>(isLoggedIn());
-    if (!loggedIn) {
-        return (
-            <PATForm
-                onSubmit={(newToken) => {
-                    login(newToken);
-                    setLoggedIn(true);
-                }}
-            />
-        );
-    }
     return (
-        <ZeplinPanel
-            zeplinLink={zeplinLink}
-            onLogout={() => {
-                logout();
-                setLoggedIn(false);
-            }}
-        />
+        <Container>
+            {loggedIn ? (
+                <ZeplinPanel
+                    zeplinLink={zeplinLink}
+                    onLogout={() => {
+                        logout();
+                        setLoggedIn(false);
+                    }}
+                />
+            ) : (
+                <PATForm
+                    onSubmit={(newToken) => {
+                        login(newToken);
+                        setLoggedIn(true);
+                    }}
+                />
+            )}
+        </Container>
     );
 };
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    background: ${({ theme }) => theme.background.content};
+    height: 100%;
+`;
