@@ -30,8 +30,16 @@ const WEB_PROJECT_COMPONENT_REGEXP = new RegExp(
     `^/project/(${OBJECT_ID.source})/styleguide/components$`,
     "i",
 );
+const WEB_PROJECT_COMPONENT_DETAIL_REGEXP = new RegExp(
+    `^/project/(${OBJECT_ID.source})/styleguide/component/(${OBJECT_ID.source})$`,
+    "i",
+);
 const WEB_STYLEGUIDE_COMPONENT_REGEXP = new RegExp(
     `^/styleguide/(${OBJECT_ID.source})/components$`,
+    "i",
+);
+const WEB_STYLEGUIDE_COMPONENT_DETAIL_REGEXP = new RegExp(
+    `^/styleguide/(${OBJECT_ID.source})/component/(${OBJECT_ID.source})$`,
     "i",
 );
 
@@ -66,6 +74,17 @@ function parseWebLink(link: string): LinkProperties {
         }
     }
 
+    const projectComponentDetailMatch = url.pathname.match(
+        WEB_PROJECT_COMPONENT_DETAIL_REGEXP,
+    );
+    if (projectComponentDetailMatch) {
+        return {
+            type: RESOURCE_TYPES.PROJECT_COMPONENT,
+            pid: projectComponentDetailMatch[1],
+            coid: projectComponentDetailMatch[2],
+        };
+    }
+
     const styleguideComponentMatch = url.pathname.match(
         WEB_STYLEGUIDE_COMPONENT_REGEXP,
     );
@@ -78,6 +97,17 @@ function parseWebLink(link: string): LinkProperties {
                 coid,
             };
         }
+    }
+
+    const styleguideComponentDetailMatch = url.pathname.match(
+        WEB_STYLEGUIDE_COMPONENT_DETAIL_REGEXP,
+    );
+    if (styleguideComponentDetailMatch) {
+        return {
+            type: RESOURCE_TYPES.STYLEGUIDE_COMPONENT,
+            stid: styleguideComponentDetailMatch[1],
+            coid: styleguideComponentDetailMatch[2],
+        };
     }
 
     return { type: RESOURCE_TYPES.INVALID };
