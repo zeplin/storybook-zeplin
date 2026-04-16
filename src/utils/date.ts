@@ -1,5 +1,7 @@
 function relativeDate(date: number): string {
-    const delta = Math.round((new Date().getTime() - new Date(date).getTime()) / 1000);
+    const delta = Math.round(
+        (new Date().getTime() - new Date(date).getTime()) / 1000,
+    );
     const minute = 60;
     const hour = minute * 60;
     const day = hour * 24;
