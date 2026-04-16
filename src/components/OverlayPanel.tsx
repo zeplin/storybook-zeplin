@@ -1,5 +1,5 @@
-import React, { useCallback, useReducer } from "react";
-import { styled } from "@storybook/theming";
+import { useCallback, useReducer, ChangeEvent } from "react";
+import { styled } from "storybook/theming";
 
 import OverlayPortal from "./OverlayPortal";
 import OverlayButtons from "./OverlayButtons";
@@ -31,7 +31,7 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
             ...state,
             ...newState,
         }),
-        initialState
+        initialState,
     );
 
     const {
@@ -42,9 +42,12 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
         opacity,
     } = state;
 
-    const selectScaling = useCallback((event) => {
-        setState({ overlayScaling: event.target.value });
-    }, []);
+    const selectScaling = useCallback(
+        (event: ChangeEvent<HTMLSelectElement>) => {
+            setState({ overlayScaling: Number(event.target.value) });
+        },
+        [],
+    );
 
     const toggleOverlay = () => {
         setState({ showOverlay: !showOverlay });
@@ -58,8 +61,8 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
         setState({ showDifference: !showDifference });
     };
 
-    const updateOpacity = (event) => {
-        setState({ opacity: event.currentTarget.value });
+    const updateOpacity = (event: ChangeEvent<HTMLInputElement>) => {
+        setState({ opacity: Number(event.currentTarget.value) });
     };
 
     return (
@@ -113,10 +116,10 @@ const Select = styled.select`
 `;
 
 const Input = styled.input`
-  margin-right: 30px;
-  margin-left: 15px;
-  width: 100%;
-`
+    margin-right: 30px;
+    margin-left: 15px;
+    width: 100%;
+`;
 
 const OverlayOptions = styled.div`
     margin-left: 15px;

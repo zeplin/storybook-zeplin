@@ -1,7 +1,12 @@
-import React from "react";
-import { IconButton } from "@storybook/components";
-import { EyeCloseIcon, EyeIcon, LockIcon, MirrorIcon, UnlockIcon } from "@storybook/icons";
-import { styled } from "@storybook/theming";
+import { IconButton } from "storybook/internal/components";
+import {
+    EyeCloseIcon,
+    EyeIcon,
+    LockIcon,
+    MirrorIcon,
+    UnlockIcon,
+} from "@storybook/icons";
+import { styled } from "storybook/theming";
 
 interface OverlayButtonsProps {
     overlayIsOpen: boolean;
@@ -31,7 +36,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
                 title={overlayIsLocked ? "Unlock overlay" : "Lock overlay"}
                 onClick={onToggleLock}
             >
-                {overlayIsLocked ? <LockIcon/> : <UnlockIcon/>}
+                {overlayIsLocked ? <LockIcon /> : <UnlockIcon />}
             </ToggleIconButton>
             <ToggleIconButton
                 active={showDifference}
@@ -39,7 +44,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
                 title="Show difference"
                 onClick={onToggleDifference}
             >
-                <MirrorIcon/>
+                <MirrorIcon />
             </ToggleIconButton>
         </>
     );
@@ -52,7 +57,7 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
                 title={overlayIsOpen ? "Hide overlay" : "Show overlay"}
                 onClick={onToggleOverlay}
             >
-                {overlayIsOpen ? <EyeCloseIcon/> : <EyeIcon/>}
+                {overlayIsOpen ? <EyeCloseIcon /> : <EyeIcon />}
             </ToggleIconButton>
             {additionalOptions}
         </Container>
@@ -67,5 +72,6 @@ const Container = styled.div`
 `;
 
 const ToggleIconButton = styled(IconButton)`
-    color: ${props => props.active ? props.theme.barSelectedColor : props.theme.barTextColor}
-`
+    color: ${(props) =>
+        props.active ? props.theme.barSelectedColor : props.theme.barTextColor};
+`;

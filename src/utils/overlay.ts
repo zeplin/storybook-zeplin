@@ -1,16 +1,20 @@
-const getOverlay: () => HTMLDivElement = () => {
-    const previewWrapper = document.querySelector('#storybook-preview-wrapper');
-    let overlay = previewWrapper.querySelector('#storybook-zeplin-preview') as HTMLDivElement;
+const getOverlay = (): HTMLDivElement => {
+    const previewWrapper = document.querySelector("#storybook-preview-wrapper");
+    if (!previewWrapper) {
+        throw new Error("Storybook preview wrapper not found.");
+    }
 
-    // Make sure overlay always returns something
+    let overlay = previewWrapper.querySelector<HTMLDivElement>(
+        "#storybook-zeplin-preview",
+    );
     if (!overlay) {
-        const imageContainer = document.createElement('div');
+        const imageContainer = document.createElement("div");
         imageContainer.id = "storybook-zeplin-preview";
         previewWrapper.appendChild(imageContainer);
         overlay = imageContainer;
     }
 
     return overlay;
-}
+};
 
 export { getOverlay };

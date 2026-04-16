@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState } from "react";
 
 import ZeplinPanel from "./ZeplinPanel";
 import { ZeplinLink } from "../types/ZeplinLink";
@@ -9,16 +9,27 @@ interface MainPanelProps {
     zeplinLink: ZeplinLink[] | string;
 }
 
-export const MainPanel: FunctionComponent<MainPanelProps> = ({ zeplinLink }) => {
+export const MainPanel: FunctionComponent<MainPanelProps> = ({
+    zeplinLink,
+}) => {
     const [loggedIn, setLoggedIn] = useState<boolean>(isLoggedIn());
     if (!loggedIn) {
-        return <PATForm onSubmit={(newToken) => {
-            login(newToken);
-            setLoggedIn(true);
-        }} />;
+        return (
+            <PATForm
+                onSubmit={(newToken) => {
+                    login(newToken);
+                    setLoggedIn(true);
+                }}
+            />
+        );
     }
-    return <ZeplinPanel zeplinLink={zeplinLink} onLogout={() => {
-        logout();
-        setLoggedIn(false);
-    }} />;
-}
+    return (
+        <ZeplinPanel
+            zeplinLink={zeplinLink}
+            onLogout={() => {
+                logout();
+                setLoggedIn(false);
+            }}
+        />
+    );
+};

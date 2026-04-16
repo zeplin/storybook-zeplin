@@ -1,7 +1,16 @@
-import React, { FunctionComponent } from "react";
-import { IconButton, TooltipMessage, WithTooltip } from "@storybook/components";
-import { UserIcon, ZoomIcon, ZoomOutIcon, ZoomResetIcon } from "@storybook/icons";
-import { styled } from "@storybook/theming";
+import { FunctionComponent } from "react";
+import {
+    IconButton,
+    TooltipMessage,
+    WithTooltip,
+} from "storybook/internal/components";
+import {
+    UserIcon,
+    ZoomIcon,
+    ZoomOutIcon,
+    ZoomResetIcon,
+} from "@storybook/icons";
+import { styled } from "storybook/theming";
 
 interface HeaderButtonsProps {
     username?: string;
@@ -16,7 +25,10 @@ interface ProfileTooltipProps {
     onLogout(): void;
 }
 
-const ProfileTooltip: FunctionComponent<ProfileTooltipProps> = ({ username, onLogout }) => (
+const ProfileTooltip: FunctionComponent<ProfileTooltipProps> = ({
+    username,
+    onLogout,
+}) => (
     <TooltipWrapper>
         <TooltipMessage
             title={username && <TooltipTitle>{username}</TooltipTitle>}
@@ -30,7 +42,7 @@ export default function HeaderButtons({
     onZoomIn,
     onZoomOut,
     onZoomReset,
-    onLogout
+    onLogout,
 }: HeaderButtonsProps) {
     return (
         <Container>
@@ -39,32 +51,31 @@ export default function HeaderButtons({
                 onClick={onZoomIn}
                 title="Zoom in"
             >
-                <ZoomIcon/>
+                <ZoomIcon />
             </IconButton>
             <IconButton
                 className="iconButton"
                 onClick={onZoomOut}
                 title="Zoom out"
             >
-                <ZoomOutIcon/>
+                <ZoomOutIcon />
             </IconButton>
             <IconButton
                 className="iconButton"
                 onClick={onZoomReset}
                 title="Reset zoom"
             >
-                <ZoomResetIcon/>
+                <ZoomResetIcon />
             </IconButton>
             <WithTooltip
                 placement="bottom"
                 trigger="click"
-                tooltip={<ProfileTooltip username={username} onLogout={onLogout} />}
+                tooltip={
+                    <ProfileTooltip username={username} onLogout={onLogout} />
+                }
             >
-                <IconButton
-                    className="iconButton"
-                    title="Profile"
-                >
-                    <UserIcon/>
+                <IconButton className="iconButton" title="Profile">
+                    <UserIcon />
                 </IconButton>
             </WithTooltip>
         </Container>
@@ -73,7 +84,7 @@ export default function HeaderButtons({
 
 const TooltipTitle = styled.div`
     text-align: center;
-`
+`;
 
 const Container = styled.div`
     display: flex;
@@ -84,7 +95,7 @@ const Container = styled.div`
 `;
 
 const TooltipWrapper = styled.div`
-& > div {
-  width: auto;
-}
+    & > div {
+        width: auto;
+    }
 `;

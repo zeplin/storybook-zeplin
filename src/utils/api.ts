@@ -28,8 +28,8 @@ type ConnectedComponentParams =
     | { projectId: string }
     | { styleguideId: string };
 
-function getZeplinToken(): string | undefined {
-    return localStorage.getItem(ZEPLIN_TOKEN_STORAGE_KEY) || ZEPLIN_TOKEN;
+function getZeplinToken(): string {
+    return localStorage.getItem(ZEPLIN_TOKEN_STORAGE_KEY) || ZEPLIN_TOKEN || "";
 }
 
 function extractErrorMessage(error: unknown): string {
@@ -189,7 +189,7 @@ export async function getZeplinLinksFromConnectedComponents(
         );
 
         return connectedComponents.flatMap(({ components, source }) => {
-            if (source.project) {
+            if (source?.project) {
                 const pid = source.project.id;
                 return components.map(({ id }) =>
                     linkPropertiesToUrl({
@@ -199,7 +199,7 @@ export async function getZeplinLinksFromConnectedComponents(
                     }),
                 );
             }
-            if (source.styleguide) {
+            if (source?.styleguide) {
                 const stid = source.styleguide.id;
                 return components.map(({ id }) =>
                     linkPropertiesToUrl({
