@@ -1,7 +1,12 @@
-import React from "react";
-import { IconButton } from "@storybook/components";
-import { EyeCloseIcon, EyeIcon, LockIcon, MirrorIcon, UnlockIcon } from "@storybook/icons";
-import { styled } from "@storybook/theming";
+import { ToggleButton } from "storybook/internal/components";
+import {
+    EyeCloseIcon,
+    EyeIcon,
+    LockIcon,
+    MirrorIcon,
+    UnlockIcon,
+} from "@storybook/icons";
+import { styled } from "storybook/theming";
 
 interface OverlayButtonsProps {
     overlayIsOpen: boolean;
@@ -22,38 +27,34 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
         showDifference,
     } = props;
 
-    // Only show additional options when the overlay is visible
     const additionalOptions = overlayIsOpen && (
         <>
-            <ToggleIconButton
-                active={overlayIsLocked}
-                className="iconButton"
-                title={overlayIsLocked ? "Unlock overlay" : "Lock overlay"}
+            <ToggleButton
+                pressed={overlayIsLocked}
+                ariaLabel={overlayIsLocked ? "Unlock overlay" : "Lock overlay"}
                 onClick={onToggleLock}
             >
-                {overlayIsLocked ? <LockIcon/> : <UnlockIcon/>}
-            </ToggleIconButton>
-            <ToggleIconButton
-                active={showDifference}
-                className="iconButton"
-                title="Show difference"
+                {overlayIsLocked ? <LockIcon /> : <UnlockIcon />}
+            </ToggleButton>
+            <ToggleButton
+                pressed={showDifference}
+                ariaLabel="Show difference"
                 onClick={onToggleDifference}
             >
-                <MirrorIcon/>
-            </ToggleIconButton>
+                <MirrorIcon />
+            </ToggleButton>
         </>
     );
 
     return (
         <Container>
-            <ToggleIconButton
-                active={overlayIsOpen}
-                className="iconButton"
-                title={overlayIsOpen ? "Hide overlay" : "Show overlay"}
+            <ToggleButton
+                pressed={overlayIsOpen}
+                ariaLabel={overlayIsOpen ? "Hide overlay" : "Show overlay"}
                 onClick={onToggleOverlay}
             >
-                {overlayIsOpen ? <EyeCloseIcon/> : <EyeIcon/>}
-            </ToggleIconButton>
+                {overlayIsOpen ? <EyeCloseIcon /> : <EyeIcon />}
+            </ToggleButton>
             {additionalOptions}
         </Container>
     );
@@ -61,11 +62,5 @@ export default function OverlayButtons(props: OverlayButtonsProps) {
 
 const Container = styled.div`
     display: flex;
-    button {
-        margin-right: 15px;
-    }
+    gap: 15px;
 `;
-
-const ToggleIconButton = styled(IconButton)`
-    color: ${props => props.active ? props.theme.barSelectedColor : props.theme.barTextColor}
-`

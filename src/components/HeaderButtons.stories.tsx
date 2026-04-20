@@ -1,4 +1,3 @@
-import React from "react";
 import HeaderButtons from "./HeaderButtons";
 
 export default {

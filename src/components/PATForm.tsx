@@ -1,14 +1,14 @@
-import React, { FunctionComponent, useState } from "react";
-import { Button, Form, Link } from "@storybook/components";
-import { styled } from "@storybook/theming";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
+import { Button, Form, Link } from "storybook/internal/components";
+import { styled } from "storybook/theming";
 
 interface PATFormProps {
-    onSubmit: (value: string) => void
+    onSubmit: (value: string) => void;
 }
 
 export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
     const [token, setToken] = useState("");
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         onSubmit(token);
     };
@@ -18,32 +18,36 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                 <StyledInput
                     value={token}
                     placeholder="Personal access token"
-                    onChange={({ target }) => setToken((target as any)?.value)}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        setToken(event.target.value)
+                    }
                 />
-                <Button type="submit" primary small>
+                <Button type="submit" variant="solid" size="small">
                     Save
                 </Button>
             </StyledForm>
             <div>
-                You can create personal access token using
-                {" "}
+                Create a personal access token on the{" "}
                 <Link
                     cancel={false}
                     href={"https://app.zeplin.io/profile/developer"}
                     target="_blank"
-                    rel="noopener noreferrer">
+                    rel="noopener noreferrer"
+                >
                     Developer
-                </Link>
-                {" "}
-                page in your Zeplin profile.
+                </Link>{" "}
+                page of your Zeplin profile.
             </div>
             <FillerRow />
             <small>
-                <i>* The token will be stored in your browser's local storage. You can later remove it using the log out button</i>
+                <i>
+                    Your token is stored in your browser's local storage. Log
+                    out to remove it.
+                </i>
             </small>
         </Rows>
     );
-}
+};
 
 const Rows = styled.div`
     padding: 15px;
@@ -66,4 +70,3 @@ const StyledInput = styled(Form.Input)`
 const FillerRow = styled.div`
     flex: 1;
 `;
-

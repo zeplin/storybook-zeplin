@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "./Button";
 
 export default {
@@ -23,17 +22,17 @@ export const ButtonMultiple = () => (
 
 ButtonNormal.parameters = {
     zeplinLink:
-        "https://app.zeplin.io/project/62380c9fa84e9916db1710b0/styleguide/components?coid=63345e42ecd1379acf991123",
+        "https://app.zeplin.io/project/6995047f384a0a5f47dd054b/styleguide/components?coid=6500a3722eaa530d288fcb61",
 };
 
 ButtonPressed.parameters = {
     zeplinLink:
-        "https://app.zeplin.io/project/62380c9fa84e9916db1710b0/styleguide/components?coid=63345e4297f930b58e7a3a8d",
+        "https://app.zeplin.io/project/6995047f384a0a5f47dd054b/styleguide/component/699f6c36f99cddc1d2ce9fe3",
 };
 
 ButtonDisabled.parameters = {
     zeplinLink:
-        "https://app.zeplin.io/project/62380c9fa84e9916db1710b0/styleguide/components?coid=63345e42ecd1379acf991123",
+        "https://app.zeplin.io/project/6995047f384a0a5f47dd054b/styleguide/component/699cd8a90de4b0c606368bf2",
 };
 
 ButtonMultiple.parameters = {

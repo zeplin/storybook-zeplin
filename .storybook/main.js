@@ -1,20 +1,14 @@
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-const stories = ["./**/*.stories.jsx"]
+const stories = ["./**/*.stories.tsx"];
 
-// stories from src are for development purposes only
-if(!IS_PRODUCTION) {
-    stories.push("../src/**/*.stories.tsx")
+// Stories from src are for development purposes only.
+if (!IS_PRODUCTION) {
+    stories.push("../src/**/*.stories.tsx");
 }
 
-module.exports = {
+export default {
     stories,
-    addons: ["../dist/register", "@storybook/addon-webpack5-compiler-babel"],
+    addons: ["../preset.js", "@storybook/addon-webpack5-compiler-swc"],
     framework: "@storybook/react-webpack5",
-    babel: async (options) => {
-        return {
-            ...options,
-            presets: ['@babel/preset-react', '@babel/preset-typescript'],
-        };
-    },
 };

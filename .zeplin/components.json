@@ -11,20 +11,15 @@
             }
         }
     ],
-    "projects": [
-        "5ecff3a2d8a8ab2a61937a66"
-    ],
+    "projects": ["5ecff3a2d8a8ab2a61937a66"],
     "styleguides": [],
     "components": [
         {
-            "path": ".storybook/Button/Button.jsx",
-            "zeplinNames": [
-                "button",
-                "button_pressed"
-            ]
+            "path": ".storybook/Button/Button.tsx",
+            "zeplinNames": ["button", "button_pressed"]
         }
     ],
     "github": {
-        "repository": "mertkahyaoglu/storybook-zeplin"
+        "repository": "zeplin/storybook-zeplin"
     }
 }

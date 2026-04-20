@@ -1,5 +1,6 @@
-import React, { useCallback, useReducer } from "react";
-import { styled } from "@storybook/theming";
+import { useCallback, useReducer, ChangeEvent } from "react";
+import { Form } from "storybook/internal/components";
+import { styled } from "storybook/theming";
 
 import OverlayPortal from "./OverlayPortal";
 import OverlayButtons from "./OverlayButtons";
@@ -22,7 +23,7 @@ const initialState: OverlayState = {
     lockOverlay: false,
     showDifference: false,
     overlayScaling: 0.5,
-    opacity: 1,
+    opacity: 0.75,
 };
 
 const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
@@ -31,7 +32,7 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
             ...state,
             ...newState,
         }),
-        initialState
+        initialState,
     );
 
     const {
@@ -42,9 +43,12 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
         opacity,
     } = state;
 
-    const selectScaling = useCallback((event) => {
-        setState({ overlayScaling: event.target.value });
-    }, []);
+    const selectScaling = useCallback(
+        (event: ChangeEvent<HTMLSelectElement>) => {
+            setState({ overlayScaling: Number(event.target.value) });
+        },
+        [],
+    );
 
     const toggleOverlay = () => {
         setState({ showOverlay: !showOverlay });
@@ -58,8 +62,8 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
         setState({ showDifference: !showDifference });
     };
 
-    const updateOpacity = (event) => {
-        setState({ opacity: event.currentTarget.value });
+    const updateOpacity = (event: ChangeEvent<HTMLInputElement>) => {
+        setState({ opacity: Number(event.currentTarget.value) });
     };
 
     return (
@@ -83,11 +87,14 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
                         value={opacity}
                         onChange={updateOpacity}
                     />
-                    Scaling
+                    Scale
+                    {/* Values are halved because Zeplin exports images at 2× density. */}
                     <Select onChange={selectScaling} value={overlayScaling}>
-                        <option value={0.5}>x0.5</option>
-                        <option value={1}>x1</option>
-                        <option value={2}>x2</option>
+                        <option value={0.25}>0.5×</option>
+                        <option value={0.5}>1×</option>
+                        <option value={1}>2×</option>
+                        <option value={1.5}>3×</option>
+                        <option value={2}>4×</option>
                     </Select>
                 </OverlayOptions>
             )}
@@ -108,15 +115,15 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
 
 export default OverlayPanel;
 
-const Select = styled.select`
+const Select = styled(Form.Select)`
     margin-left: 15px;
 `;
 
 const Input = styled.input`
-  margin-right: 30px;
-  margin-left: 15px;
-  width: 100%;
-`
+    margin-right: 30px;
+    margin-left: 15px;
+    width: 100%;
+`;
 
 const OverlayOptions = styled.div`
     margin-left: 15px;
