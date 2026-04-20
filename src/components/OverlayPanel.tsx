@@ -88,6 +88,7 @@ const OverlayPanel: React.FC<OverlayPanelProps> = ({ imageUrl }) => {
                         onChange={updateOpacity}
                     />
                     Scale
+                    {/* Values are halved because Zeplin exports images at 2× density. */}
                     <Select onChange={selectScaling} value={overlayScaling}>
                         <option value={0.25}>0.5×</option>
                         <option value={0.5}>1×</option>

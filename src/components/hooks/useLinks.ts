@@ -76,12 +76,19 @@ export const useLinks = (zeplinLink: unknown): State => {
         } else {
             const projectId = getProjectIdFromProjectLink(zeplinLink);
             const styleguideId = getStyleguideIdFromStyleguideLink(zeplinLink);
-            if (projectId || styleguideId) {
+
+            let params:
+                | { projectId: string }
+                | { styleguideId: string }
+                | null = null;
+            if (projectId) {
+                params = { projectId };
+            } else if (styleguideId) {
+                params = { styleguideId };
+            }
+            if (params) {
                 setState({ links: [], error: null, linksLoading: true });
-                getZeplinLinksFromConnectedComponents(
-                    storyId,
-                    projectId ? { projectId } : { styleguideId: styleguideId! },
-                )
+                getZeplinLinksFromConnectedComponents(storyId, params)
                     .then((links) => {
                         const mappedLinks = links.map((link, i) => ({
                             name: `Component ${i + 1}`,

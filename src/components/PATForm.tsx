@@ -1,4 +1,4 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { Button, Form, Link } from "storybook/internal/components";
 import { styled } from "storybook/theming";
 
@@ -18,7 +18,9 @@ export const PATForm: FunctionComponent<PATFormProps> = ({ onSubmit }) => {
                 <StyledInput
                     value={token}
                     placeholder="Personal access token"
-                    onChange={({ target }) => setToken((target as any)?.value)}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        setToken(event.target.value)
+                    }
                 />
                 <Button type="submit" variant="solid" size="small">
                     Save
