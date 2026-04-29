@@ -7,7 +7,7 @@
         "moduleResolution": "bundler",
         "declaration": true,
         "strict": true,
-        "jsx": "react-jsx",
+        "jsx": "react",
         "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,

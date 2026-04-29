@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { styled } from "storybook/theming";
 
 import ZeplinPanel from "./ZeplinPanel";

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
+import React, { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { Button, Form, Link } from "storybook/internal/components";
 import { styled } from "storybook/theming";
 
