@@ -47,7 +47,7 @@
     },
     "homepage": "https://github.com/zeplin/storybook-zeplin#readme",
     "dependencies": {
-        "@storybook/icons": "^1.2.9",
+        "@storybook/icons": "^2.0.1",
         "@zeplin/sdk": "^1.9.0",
         "query-string": "^6.12.1"
     },
