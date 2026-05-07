@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { ToggleButton } from "storybook/internal/components";
 import {
     EyeCloseIcon,

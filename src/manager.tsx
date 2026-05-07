@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { addons, types, useParameter } from "storybook/manager-api";
 import { AddonPanel } from "storybook/internal/components";
 
