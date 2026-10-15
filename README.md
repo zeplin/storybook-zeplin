@@ -28,7 +28,7 @@
 
 ## Requirements
 
-Storybook Zeplin addon v4 is compatible with Storybook 10 and Node.js >=18.
+Storybook Zeplin addon v4 is compatible with Storybook 10 and 11, and Node.js >=18.
 
 For Storybook 8, use `storybook-zeplin@3`.
 
